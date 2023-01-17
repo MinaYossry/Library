@@ -5,15 +5,15 @@
 #include <string>
 #include <algorithm>
 
-#include "personsManager.h"
+#include "PersonsManager.h"
 
 using namespace std;
 
 
 struct Screens
 {
-	personsManager customers{typCustomer};
-	personsManager librarians{ typLibrarian };
+	PersonsManager customers{typCustomer};
+	PersonsManager librarians{ typLibrarian };
 	personTypes currentUser = personTypes::typnone;
 	Person* activeUser = nullptr;
 

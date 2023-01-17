@@ -131,14 +131,14 @@
     <ClCompile Include="Librarian.cpp" />
     <ClCompile Include="Library.cpp" />
     <ClCompile Include="Person.cpp" />
-    <ClCompile Include="personsManager.cpp" />
+    <ClCompile Include="PersonsManager.cpp" />
     <ClCompile Include="Screens.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Customer.h" />
     <ClInclude Include="Librarian.h" />
     <ClInclude Include="Person.h" />
-    <ClInclude Include="personsManager.h" />
+    <ClInclude Include="PersonsManager.h" />
     <ClInclude Include="Screens.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

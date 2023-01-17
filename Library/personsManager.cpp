@@ -1,19 +1,19 @@
-#include "personsManager.h"
+#include "PersonsManager.h"
 
-bool personsManager::validateLoginCred(int _ID, int _password)
+bool PersonsManager::validateLoginCred(int _ID, int _password)
 {
-    return personsManager::persons.find(_ID) != personsManager::persons.end() && personsManager::persons.at(_ID)->getPassword() == _password;
+    return PersonsManager::persons.find(_ID) != PersonsManager::persons.end() && PersonsManager::persons.at(_ID)->getPassword() == _password;
 }
 
-Person* personsManager::login(int _ID, int _password)
+Person* PersonsManager::login(int _ID, int _password)
 {
     if (validateLoginCred(_ID, _password))
-        return personsManager::persons.at(_ID);
+        return PersonsManager::persons.at(_ID);
     else
         return nullptr;
 }
 
-Person* personsManager::registeration(int _ID, int _password, const std::string& _name)
+Person* PersonsManager::registeration(int _ID, int _password, const std::string& _name)
 {
     if (persons.find(_ID) == persons.end()) {
         Person* newPerson{ nullptr };
