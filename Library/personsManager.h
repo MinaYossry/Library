@@ -12,7 +12,7 @@ enum personTypes
 {
 	typLibrarian,
 	typCustomer,
-	typnone,
+	typNone,
 };
 
 class PersonsManager

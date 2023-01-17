@@ -6,17 +6,18 @@
 #include <algorithm>
 
 #include "PersonsManager.h"
+#include "Book.h"
 
 using namespace std;
 
 
-struct Screens
+class Library
 {
+private:
 	PersonsManager customers{typCustomer};
 	PersonsManager librarians{ typLibrarian };
-	personTypes currentUser = personTypes::typnone;
+	personTypes currentUser = personTypes::typNone;
 	Person* activeUser = nullptr;
-
 	const  vector<string> personTypeScreen{
 		"Librarien",
 		"Customer",
@@ -45,9 +46,12 @@ struct Screens
 		"Generate Reports",
 	};
 
-	void  displayScreen(const vector<string> &screen);
-	void  loginScreen();
-	void  registerScreen();
-	int getChoice(const vector<string>& screen);
+public:
+	void displayScreen(const vector<string> &screen);
+	void loginScreen();
+	void registerScreen();
+	Book* searchForBook();
+	void getChoice(const vector<string>& screen);
+	void openLibrary();
 };
 
