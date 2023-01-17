@@ -4,6 +4,7 @@
 
 #include "Person.h"
 #include "Customer.h"
+#include "Librarian.h"
 
 using namespace std;
 

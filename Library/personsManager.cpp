@@ -18,7 +18,7 @@ Person* personsManager::registeration(int _ID, int _password, const std::string&
     if (persons.find(_ID) == persons.end()) {
         Person* newPerson{ nullptr };
         if (type == typLibrarian) {
-
+            newPerson = new Librarian(_ID, _password, _name);
         }
         else if (type == typCustomer) {
             newPerson = new Customer(_ID, _password, _name);
