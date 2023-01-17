@@ -12,16 +12,16 @@ enum personTypes
 {
 	typLibrarian,
 	typCustomer,
-	typnone,
+	typNone,
 };
 
-class personsManager
+class PersonsManager
 {
 public:
 	unordered_map<int, Person*> persons;
 
 	personTypes type;
-	personsManager(personTypes _type) : type {_type} {}
+	PersonsManager(personTypes _type) : type {_type} {}
 
 	bool validateLoginCred(int _ID, int _password);
 	Person* login(int _ID, int _password);

@@ -127,19 +127,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Book.cpp" />
     <ClCompile Include="Customer.cpp" />
     <ClCompile Include="Librarian.cpp" />
-    <ClCompile Include="Library.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Person.cpp" />
-    <ClCompile Include="personsManager.cpp" />
-    <ClCompile Include="Screens.cpp" />
+    <ClCompile Include="PersonsManager.cpp" />
+    <ClCompile Include="Library.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Book.h" />
     <ClInclude Include="Customer.h" />
     <ClInclude Include="Librarian.h" />
     <ClInclude Include="Person.h" />
-    <ClInclude Include="personsManager.h" />
-    <ClInclude Include="Screens.h" />
+    <ClInclude Include="PersonsManager.h" />
+    <ClInclude Include="Library.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
