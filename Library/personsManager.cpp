@@ -15,16 +15,17 @@ Person* PersonsManager::login(int _ID, int _password)
 
 Person* PersonsManager::registeration(int _ID, int _password, const std::string& _name)
 {
+    Person* newPerson{ nullptr };
     if (persons.find(_ID) == persons.end()) {
-        Person* newPerson{ nullptr };
         if (type == typLibrarian) {
             newPerson = new Librarian(_ID, _password, _name);
         }
         else if (type == typCustomer) {
             newPerson = new Customer(_ID, _password, _name);
-            persons[_ID] = newPerson;
         }
-        return newPerson;
+
+        if (newPerson)
+            persons[_ID] = newPerson;
     }
-    return nullptr;
+    return newPerson;
 }
