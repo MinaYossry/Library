@@ -29,7 +29,7 @@ void Screens::loginScreen()
 	if (currentUser == typLibrarian) {
 		activeUser = librarians.login(id, password);
 		if (activeUser)
-			displayScreen(customerOptions);
+			displayScreen(librarianOptions);
 		else
 			displayScreen(personType);
 	}
@@ -37,7 +37,7 @@ void Screens::loginScreen()
 	else if (currentUser == typCustomer) {
 		activeUser = customers.login(id, password);
 		if (activeUser) {
-			displayScreen(librarianOptions);
+			displayScreen(customerOptions);
 		}
 		else
 			displayScreen(personType);
@@ -62,17 +62,16 @@ int Screens::getChoice(const vector<string>& screen)
 		{
 		case 1:
 			currentUser = typLibrarian;
-			displayScreen(loginOrRegister);
 			break;
 		case 2:
 			currentUser = typCustomer;
-			displayScreen(loginOrRegister);
 			break;
 		case 3:
 		default:
 			exit(0);
 			break;
 		}
+		displayScreen(loginOrRegister);
 	}
 
 	else if (screen == loginOrRegister) {
@@ -111,14 +110,14 @@ void Screens::registerScreen()
 
 	// create new object
 	if (currentUser == typLibrarian) {
-		activeUser = librarians.registeration(id, password, name); // true will be replaced by validation function;
+		activeUser = librarians.registeration(id, password, name); 
 		if (activeUser)
 			loginScreen();
 		else
 			displayScreen(personType);
 	}
 	else if (currentUser == typCustomer) {
-		activeUser = customers.registeration(id, password, name); // true will be replaced by validation function;
+		activeUser = customers.registeration(id, password, name); 
 		if (activeUser)
 			loginScreen();
 		else
