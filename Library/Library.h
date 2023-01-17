@@ -53,5 +53,11 @@ public:
 	Book* searchForBook();
 	void getChoice(const vector<string>& screen);
 	void openLibrary();
+
+	void personTypeScreenHdlr(int choice);
+	void loginOrRegisterHdlr(int choice);
+	void customerOptionsHdlr(int choice);
+	void librarianOptionsHdlr(int choice);
+
 };
 

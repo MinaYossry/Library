@@ -14,106 +14,126 @@ void Library::displayScreen(const vector<string>& screen)
 
 void Library::getChoice(const vector<string>& screen)
 {
-	int c{};
+	int choice{};
 	do {
 		displayScreen(screen);
 		cout << "Choice: ";
-		cin >> c;
-	} while (c < 1 || c > screen.size() + 1);
+		cin >> choice;
+	} while (choice < 1 || choice > screen.size() + 1);
 
 	if (screen == personTypeScreen) {
-		switch (c)
-		{
-		case 1:
-			currentUser = typLibrarian;
-			break;
-		case 2:
-			currentUser = typCustomer;
-			break;
-		case 3:
-		default:
-			exit(0);
-			break;
-		}
-		getChoice(loginOrRegister);
+		personTypeScreenHdlr(choice);
 	}
 
 	else if (screen == loginOrRegister) {
-		switch (c)
-		{
-		case 1:
-			loginScreen();
-			break;
-		case 2:
-			registerScreen();
-			break;
-		case 3:
-		default:
-			getChoice(personTypeScreen);
-			break;
-		}
+		loginOrRegisterHdlr(choice);
 	}
+
 	else if (screen == customerOptions) {
-		switch (c)
-		{
-		case 1:
-			system("CLS");
-			cout << "Buy A Book: " << endl;
-			searchForBook();
-			break;
-		case 2:
-			system("CLS");
-			cout << "Borrow A Book: " << endl;
-			searchForBook();
-			break;
-		case 3:
-			system("CLS");
-			cout << "Search For A Book: " << endl;
-			searchForBook();
-			break;
-		case 4:
-			system("CLS");
-			cout << "Return A Book: " << endl;
-			searchForBook();
-			break;
-		case 5:
-			break;
-		case 6:
-		default:
-			currentUser = typNone;
-			getChoice(personTypeScreen);
-			break;
-		}
+		customerOptionsHdlr(choice);
 	}
 	else if (screen == librarianOptions) {
-		switch (c)
-		{
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
-		case 7:
-			break;
-		case 8:
-		default:
-			currentUser = typNone;
-			getChoice(personTypeScreen);
-			break;
-		}
+		librarianOptionsHdlr(choice);
 	}
 }
+
 void Library::openLibrary()
 {
 	getChoice(personTypeScreen);
 }
+
+void Library::personTypeScreenHdlr(int choice)
+{
+	switch (choice)
+	{
+	case 1:
+		currentUser = typLibrarian;
+		break;
+	case 2:
+		currentUser = typCustomer;
+		break;
+	case 3:
+	default:
+		exit(0);
+		break;
+	}
+	getChoice(loginOrRegister);
+}
+
+void Library::loginOrRegisterHdlr(int choice)
+{
+	switch (choice)
+	{
+	case 1:
+		loginScreen();
+		break;
+	case 2:
+		registerScreen();
+		break;
+	case 3:
+	default:
+		getChoice(personTypeScreen);
+		break;
+	}
+}
+
+void Library::customerOptionsHdlr(int choice)
+{
+	system("CLS");
+	switch (choice)
+	{
+	case 1:
+		cout << "Buy A Book: " << endl;
+		searchForBook();
+		break;
+	case 2:
+		cout << "Borrow A Book: " << endl;
+		searchForBook();
+		break;
+	case 3:
+		cout << "Search For A Book: " << endl;
+		searchForBook();
+		break;
+	case 4:
+		cout << "Return A Book: " << endl;
+		searchForBook();
+		break;
+	case 5:
+		break;
+	case 6:
+	default:
+		currentUser = typNone;
+		getChoice(personTypeScreen);
+		break;
+	}
+}
+
+void Library::librarianOptionsHdlr(int choice)
+{
+	switch (choice)
+	{
+	case 1:
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	case 4:
+		break;
+	case 5:
+		break;
+	case 6:
+		break;
+	case 7:
+		break;
+	case 8:
+	default:
+		currentUser = typNone;
+		getChoice(personTypeScreen);
+		break;
+	}
+}
+
 void Library::loginScreen()
 {
 	system("CLS");
