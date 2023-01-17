@@ -41,6 +41,7 @@ void Library::openLibrary()
 {
 	getChoice(personTypeScreen);
 }
+
 void Library::personTypeScreenHdlr(int choice)
 {
 	switch (choice)
@@ -78,25 +79,22 @@ void Library::loginOrRegisterHdlr(int choice)
 
 void Library::customerOptionsHdlr(int choice)
 {
+	system("CLS");
 	switch (choice)
 	{
 	case 1:
-		system("CLS");
 		cout << "Buy A Book: " << endl;
 		searchForBook();
 		break;
 	case 2:
-		system("CLS");
 		cout << "Borrow A Book: " << endl;
 		searchForBook();
 		break;
 	case 3:
-		system("CLS");
 		cout << "Search For A Book: " << endl;
 		searchForBook();
 		break;
 	case 4:
-		system("CLS");
 		cout << "Return A Book: " << endl;
 		searchForBook();
 		break;
