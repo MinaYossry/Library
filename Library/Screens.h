@@ -17,14 +17,14 @@ struct Screens
 	personTypes currentUser = personTypes::typnone;
 	Person* activeUser = nullptr;
 
-	const  vector<string> personType{
+	const  vector<string> personTypeScreen{
 		"Librarien",
 		"Customer",
 	};
 
 	const  vector<string> loginOrRegister{
-	"Login",
-	"Register"
+		"Login",
+		"Register"
 	};
 
 	const vector<string> customerOptions{

@@ -7,7 +7,7 @@
 int main()
 {
     Screens sc;
-    sc.displayScreen(sc.personType);
+    sc.getChoice(sc.personTypeScreen);
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

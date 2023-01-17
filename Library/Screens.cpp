@@ -10,9 +10,51 @@ void Screens::displayScreen(const vector<string>& screen)
 	}
 	cout << screen.size() + 1 << "- exit" << endl;
 	cout << "=====================================" << endl;
-	getChoice(screen);
 }
 
+int Screens::getChoice(const vector<string>& screen)
+{
+	int c{};
+	do {
+		displayScreen(screen);
+		cout << "Choice: ";
+		cin >> c;
+	} while (c < 1 || c > screen.size() + 1);
+
+	if (screen == personTypeScreen) {
+		switch (c)
+		{
+		case 1:
+			currentUser = typLibrarian;
+			break;
+		case 2:
+			currentUser = typCustomer;
+			break;
+		case 3:
+		default:
+			exit(0);
+			break;
+		}
+		getChoice(loginOrRegister);
+	}
+
+	else if (screen == loginOrRegister) {
+		switch (c)
+		{
+		case 1:
+			loginScreen();
+			break;
+		case 2:
+			registerScreen();
+			break;
+		case 3:
+		default:
+			getChoice(personTypeScreen);
+			break;
+		}
+	}
+	return c;
+}
 void Screens::loginScreen()
 {
 	system("CLS");
@@ -29,67 +71,24 @@ void Screens::loginScreen()
 	if (currentUser == typLibrarian) {
 		activeUser = librarians.login(id, password);
 		if (activeUser)
-			displayScreen(librarianOptions);
+			getChoice(librarianOptions);
 		else
-			displayScreen(personType);
+			getChoice(personTypeScreen);
 	}
 
 	else if (currentUser == typCustomer) {
 		activeUser = customers.login(id, password);
 		if (activeUser) {
-			displayScreen(customerOptions);
+			getChoice(customerOptions);
 		}
 		else
-			displayScreen(personType);
+			getChoice(personTypeScreen);
 	}
 
 	else {
 		// error
 		exit(1);
 	}
-}
-
-int Screens::getChoice(const vector<string>& screen)
-{
-	int c{};
-	do {
-		cout << "Choice: ";
-		cin >> c;
-	} while (c < 1 || c > screen.size() + 1);
-
-	if (screen == personType) {
-		switch (c)
-		{
-		case 1:
-			currentUser = typLibrarian;
-			break;
-		case 2:
-			currentUser = typCustomer;
-			break;
-		case 3:
-		default:
-			exit(0);
-			break;
-		}
-		displayScreen(loginOrRegister);
-	}
-
-	else if (screen == loginOrRegister) {
-		switch (c)
-		{
-		case 1:
-			loginScreen();
-			break;
-		case 2:
-			registerScreen();
-			break;
-		case 3:
-		default:
-			displayScreen(personType);
-			break;
-		}
-	}
-	return c;
 }
 
 void Screens::registerScreen()
@@ -114,14 +113,14 @@ void Screens::registerScreen()
 		if (activeUser)
 			loginScreen();
 		else
-			displayScreen(personType);
+			getChoice(personTypeScreen);
 	}
 	else if (currentUser == typCustomer) {
 		activeUser = customers.registeration(id, password, name); 
 		if (activeUser)
 			loginScreen();
 		else
-			displayScreen(personType);
+			getChoice(personTypeScreen);
 	}
 	else {
 		// error
