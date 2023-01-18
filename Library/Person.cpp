@@ -19,3 +19,12 @@ string Person::getName() const
 {
 	return this->name;
 }
+
+Book* Person::searchBook(string name)
+{
+	if (Book::bookList.find(name) != Book::bookList.end())
+	{
+		return Book::bookList.at(name);
+	}
+	return nullptr;
+}

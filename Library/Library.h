@@ -17,6 +17,8 @@ private:
 	PersonsManager customers{typCustomer};
 	PersonsManager librarians{ typLibrarian };
 
+	
+
 	personTypes currentUser = personTypes::typNone;
 	Person* activeUser = nullptr;
 
@@ -49,6 +51,9 @@ private:
 	};
 
 public:
+	void addBorrowedBook(borrowedBook* Object) {
+		borrowedBookList.push_back(Object);
+	}
 	void displayScreen(const vector<string> &screen);
 	void loginScreen();
 	void registerScreen();
