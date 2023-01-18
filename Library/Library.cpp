@@ -85,7 +85,6 @@ void Library::customerOptionsHdlr(int choice)
 	{
 	case 1:
 		cout << "Buy A Book: " << endl;
-		searchForBook();
 		break;
 	case 2:
 		cout << "Borrow A Book: " << endl;
