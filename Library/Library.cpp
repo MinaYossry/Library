@@ -32,6 +32,7 @@ void Library::getChoice(const vector<string>& screen)
 	else if (screen == customerOptions) {
 		customerOptionsHdlr(choice);
 	}
+
 	else if (screen == librarianOptions) {
 		librarianOptionsHdlr(choice);
 	}
@@ -113,20 +114,28 @@ void Library::librarianOptionsHdlr(int choice)
 	switch (choice)
 	{
 	case 1:
+
 		break;
 	case 2:
+
 		break;
 	case 3:
+
 		break;
 	case 4:
+
 		break;
 	case 5:
+
 		break;
 	case 6:
+
 		break;
 	case 7:
+
 		break;
 	case 8:
+
 	default:
 		currentUser = typNone;
 		getChoice(personTypeScreen);
@@ -149,25 +158,20 @@ void Library::loginScreen()
 	// validate to login
 	if (currentUser == typLibrarian) {
 		activeUser = librarians.login(id, password);
-		if (activeUser)
-			getChoice(librarianOptions);
-		else
-			getChoice(personTypeScreen);
 	}
 
 	else if (currentUser == typCustomer) {
 		activeUser = customers.login(id, password);
-		if (activeUser) {
-			getChoice(customerOptions);
-		}
-		else
-			getChoice(personTypeScreen);
 	}
 
 	else {
 		// error
 		exit(1);
 	}
+	if (activeUser)
+		getChoice(librarianOptions);
+	else
+		getChoice(personTypeScreen);
 }
 
 void Library::registerScreen()
@@ -189,22 +193,21 @@ void Library::registerScreen()
 	// create new object
 	if (currentUser == typLibrarian) {
 		activeUser = librarians.registeration(id, password, name); 
-		if (activeUser)
-			loginScreen();
-		else
-			getChoice(personTypeScreen);
 	}
+
 	else if (currentUser == typCustomer) {
 		activeUser = customers.registeration(id, password, name); 
-		if (activeUser)
-			loginScreen();
-		else
-			getChoice(personTypeScreen);
 	}
+
 	else {
 		// error
 		exit(1);
 	}
+
+	if (activeUser)
+		loginScreen();
+	else
+		getChoice(personTypeScreen);
 }
 
 Book* Library::searchForBook()

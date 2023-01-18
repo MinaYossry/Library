@@ -16,8 +16,10 @@ class Library
 private:
 	PersonsManager customers{typCustomer};
 	PersonsManager librarians{ typLibrarian };
+
 	personTypes currentUser = personTypes::typNone;
 	Person* activeUser = nullptr;
+
 	const  vector<string> personTypeScreen{
 		"Librarien",
 		"Customer",
