@@ -21,6 +21,8 @@ public:
 	
 	Book(int _id, string _name, float _price, string _author, bool _status, string _category, string _edition, int _stock);
 	string getName();
+	string getCategory();
+	string getAuthor();
 	void setStock(int value);
 };
 

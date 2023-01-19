@@ -1,6 +1,6 @@
 #include "Person.h"
 #include "Book.h"
-
+#include "Library.h"
 Person::Person(int _ID, int _password, string _name)
 	: ID (_ID), password {_password}, name {_name}
 {
@@ -23,9 +23,9 @@ string Person::getName() const
 
 Book* Person::searchBook(string name)
 {
-	if (Book::booksList.find(name) != Book::booksList.end())
+	if (Library::booksList.find(name) != Library::booksList.end())
 	{
-		return Book::booksList.at(name);
+		return Library::booksList.at(name);
 	}
 	return nullptr;
 }

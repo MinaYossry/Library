@@ -18,5 +18,9 @@ void Book::setStock(int value)
 {
 	this->stock += value;
 }
-
- unordered_map<string,Book*> Book::booksList = { {"",nullptr} };
+string Book::getCategory() {
+	return this->category;
+}
+string Book::getAuthor() {
+	return this->author;
+}

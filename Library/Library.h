@@ -6,10 +6,16 @@
 #include <algorithm>
 #include "PersonsManager.h"
 #include "Book.h"
-
+#include"Customer.h"
 using namespace std;
 
-
+struct borrowedBook
+{
+public:
+	Book* book;
+	string returnDate;
+	Customer* customer;
+};
 class Library
 {
 private:
@@ -66,6 +72,7 @@ public:
 	static vector<string> paymentMethods;
 	static unordered_map<string, Book*> booksList;
 	static vector<borrowedBook*> borrowedBookList;
+	static vector<string> categoryList;
 	//vector<Customer*> CustomerList;
 
 };

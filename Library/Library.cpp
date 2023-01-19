@@ -225,3 +225,5 @@ Book* Library::searchForBook()
 vector<string> Library::paymentMethods = { {""}};
 unordered_map<string, Book*> Library::booksList = { {"",nullptr} };
 vector<borrowedBook*> Library::borrowedBookList = { {nullptr} };
+vector<string> Library::categoryList = { {""} };
+ 
