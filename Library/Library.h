@@ -35,7 +35,7 @@ private:
 	const vector<string> customerOptions{
 		"Buy a book",
 		"Borrow a book",
-		"Search for a book",
+		"Search for a book", // should be in the person class
 		"Return a book",
 		"Choose payment method",
 	};
@@ -45,7 +45,7 @@ private:
 		"Delete book",
 		"Update a book",
 		"Lend a book",
-		"Request Borrowed Book",
+		"Request Borrow0ed Book",
 		"Add Payment method",
 		"Generate Reports",
 	};

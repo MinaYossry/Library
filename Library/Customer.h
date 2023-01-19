@@ -1,60 +1,23 @@
 #pragma once
-#include <unordered_map>
-#include <vector>
 #include "Person.h"
-
-struct borrowedBook
-{
-	Book* book;
-	string returnDate;
-};
+#include "Book.h"
+#include <vector>
+#include <iostream>
 
 class Customer : public Person
 {
 private:
-	// Book
-	// Return Date
-
-
-	vector<string> notification;
-
+    vector<Book> boughtBooks;
+    vector<Book> borrowedBooks;
+    double accountBalance = 500;
+    string paymentMethod;
 public:
-	Customer(int _ID, int _password, string _name);
-
-	vector<borrowedBook*> borrowedBookList;
-
-
-	void reqBook(string name)
-	{
-		Book* currentBook = searchBook(name);
-		if (currentBook)
-		{
-			borrowedBook* newBorrowedBook = new borrowedBook();
-			newBorrowedBook->book = currentBook;
-			newBorrowedBook->returnDate = "sadkljasdlkas";
-
-			borrowedBookList.push_back(newBorrowedBook);
-		}
-		else {
-			cout << "book not found";
-		}
-	}
-
-	void reqBook(Book* book)
-	{
-		if (book)
-		{
-			////
-		}
-		else {
-			cout << "book not found";
-		}
-	}
-
-	void recieveNot(string messange)
-	{
-		notification.push_back(messange);
-	}
-
+    Customer(int ID, int password, string name);
+    void buyBook(Book& book);
+    void borrowBook(Book& book);
+    void returnBook(Book& book);
+    void choosePaymentMethod();
+    Book* searchForBook(string title);
+    vector<Book>& getBoughtBooks();
+    vector<Book>& getBorrowedBooks();
 };
-
