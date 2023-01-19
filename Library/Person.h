@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include"Book.h"
 using namespace std;
 
 class Person
@@ -14,5 +15,6 @@ public:
 	int getPassword() const;
 	int getID() const;
 	string getName() const;
+	Book* searchBook(string name);
 };
 

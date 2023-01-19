@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 #include <algorithm>
-
 #include "PersonsManager.h"
 #include "Book.h"
 
@@ -15,10 +14,11 @@ class Library
 {
 private:
 	PersonsManager customers{typCustomer};
-	PersonsManager librarians{ typLibrarian };
+	PersonsManager librarians{typLibrarian};
 
 	personTypes currentUser = personTypes::typNone;
 	Person* activeUser = nullptr;
+
 
 	const  vector<string> personTypeScreen{
 		"Librarien",
@@ -60,6 +60,13 @@ public:
 	void loginOrRegisterHdlr(int choice);
 	void customerOptionsHdlr(int choice);
 	void librarianOptionsHdlr(int choice);
+
+
+	// my added dynamic lists (taha)
+	static vector<string> paymentMethods;
+	static unordered_map<string, Book*> booksList;
+	static vector<borrowedBook*> borrowedBookList;
+	//vector<Customer*> CustomerList;
 
 };
 

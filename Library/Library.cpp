@@ -220,3 +220,8 @@ Book* Library::searchForBook()
 	// return Book::getBook(bookName);
 	return nullptr;
 }
+
+
+vector<string> Library::paymentMethods = { {""}};
+unordered_map<string, Book*> Library::booksList = { {"",nullptr} };
+vector<borrowedBook*> Library::borrowedBookList = { {nullptr} };
