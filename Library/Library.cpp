@@ -1,4 +1,6 @@
 #include "Library.h"
+#include "Customer.h"
+#include <string>
 
 void Library::displayScreen(const vector<string>& screen)
 {
@@ -84,25 +86,41 @@ void Library::loginOrRegisterHdlr(int choice)
 void Library::customerOptionsHdlr(int choice)
 {
 	system("CLS");
+	Customer* customer = dynamic_cast<Customer*>(activeUser);
 	switch (choice)
 	{
 	case 1:
 		cout << "Buy A Book: " << endl;
-		enterBookName();
+		string title;
+		cout << "Enter the title of the book you want to buy: ";
+		cin >> title;
+		Book* book = searchForBook(title);
+		if (book != nullptr) customer->buyBook(*book);
 		break;
 	case 2:
 		cout << "Borrow A Book: " << endl;
-		enterBookName();
+		cout << "Enter the title of the book you want to borrow: ";
+		cin >> title;
+		book = searchForBook(title);
+		if (book != nullptr) customer->borrowBook(*book);
 		break;
 	case 3:
 		cout << "Search For A Book: " << endl;
-		enterBookName();
+		cout << "Enter the title of the book you want to search for: ";
+		cin >> title;
+		book = customer->searchForBook(title);
+		if (book != nullptr) cout << book->getTitle() << endl;
 		break;
 	case 4:
 		cout << "Return A Book: " << endl;
-		enterBookName();
+		cout << "Enter the title of the book you want to return: ";
+		cin >> title;
+		book = customer->searchForBook(title);
+		if (book != nullptr) customer->returnBook(*book);
 		break;
 	case 5:
+		cout << "Choose Payment Method: " << endl;
+		customer->choosePaymentMethod();
 		break;
 	case 6:
 	default:

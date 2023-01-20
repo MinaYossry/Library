@@ -1,7 +1,8 @@
 #include "PersonsManager.h"
 
 bool PersonsManager::validateLoginCred(int _ID, int _password)
-{
+{   
+    /*  This function checks if the    */
     return PersonsManager::persons.find(_ID) != PersonsManager::persons.end() && PersonsManager::persons.at(_ID)->getPassword() == _password;
 }
 
