@@ -40,6 +40,7 @@ void Librarian::lendBook(string bookName, const tm& _returnDate, Customer* obj) 
 	Book* b1 = searchBook(bookName);
 	if (b1 && obj)
 	{
+		b1->setStock(-1);
 		borrowedBook* b2 = new borrowedBook(b1, _returnDate, obj);
 		Library::borrowedBookList.push_back(b2);
 	}
@@ -100,7 +101,7 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
 		cout << "Books List :\n" << "---------------\n";
 		for (auto& it : Library::booksList)
 		{
-			cout << it.first << endl;
+			cout << it.first << " || Stock: " << it.second->getStock() << endl;
 		}
 		break;
 	case 3: // number & list of each book in each category
