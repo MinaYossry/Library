@@ -22,18 +22,11 @@ void Librarian::DeleteBook(string bookName) {
 };
 
 
-void Librarian::UpdateBook(string bookName,string caseType) {
+void Librarian::UpdateBook(string bookName, int newStock) {
 
 	if (Library::booksList.find(bookName) != Library::booksList.end())
 	{
-		if (caseType == "buy"||caseType=="lend")
-		{
-			Person::searchBook(bookName)->setStock(-1);
-		}
-		else if (caseType == "returnBook")
-		{
-			Person::searchBook(bookName)->setStock(1);
-		}
+		Person::searchBook(bookName)->setStock(newStock);
 	}
 }
 
@@ -65,7 +58,7 @@ void Librarian::AddPaymentMethod(string paymentMethodName) {
 };
 
 
-void Librarian::generateReport(int choice,vector<Person*> customerList,string currentDate, string author) {
+void Librarian::generateReport(int choice, const unordered_map<int, Person*>& customers, const string& currectDate, const string& author ) {
 
 	int counter = 0;
 	switch (choice)
@@ -118,7 +111,7 @@ void Librarian::generateReport(int choice,vector<Person*> customerList,string cu
 		 counter = 0;
 		for (int i = 0; i < Library::borrowedBookList.size(); i++)
 		{
-			if (std::stoi(Library::borrowedBookList.at(0)->returnDate) > std::stoi(currentDate))
+			if (std::stoi(Library::borrowedBookList.at(0)->returnDate) > std::stoi(currectDate))
 				counter++;
 		}
 		cout << "Number of missed books from the library is : " << counter << endl;
@@ -143,11 +136,11 @@ void Librarian::generateReport(int choice,vector<Person*> customerList,string cu
 		}
 		break;
 	case 6: // total number & list of customer's details
-		cout << "Total number of customers is : " << customerList.size() << endl;
-		for (int i = 0; i < customerList.size(); i++)
-		{
-			cout << i + 1 << ") " << customerList.at(i)->getName()<<endl;
-		}
+		//cout << "Total number of customers is : " << customerList.size() << endl;
+		//for (int i = 0; i < customerList.size(); i++)
+		//{
+		//	cout << i + 1 << ") " << customerList.at(i)->getName()<<endl;
+		//}
 		break;
 	}
 };

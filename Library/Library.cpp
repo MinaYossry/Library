@@ -36,6 +36,9 @@ void Library::getChoice(const vector<string>& screen)
 	else if (screen == librarianOptions) {
 		librarianOptionsHdlr(choice);
 	}
+	else if (screen == reports) {
+		reportScreenHdlr(choice);
+	}
 }
 
 void Library::openLibrary()
@@ -85,19 +88,19 @@ void Library::customerOptionsHdlr(int choice)
 	{
 	case 1:
 		cout << "Buy A Book: " << endl;
-		searchForBook();
+		enterBookName();
 		break;
 	case 2:
 		cout << "Borrow A Book: " << endl;
-		searchForBook();
+		enterBookName();
 		break;
 	case 3:
 		cout << "Search For A Book: " << endl;
-		searchForBook();
+		enterBookName();
 		break;
 	case 4:
 		cout << "Return A Book: " << endl;
-		searchForBook();
+		enterBookName();
 		break;
 	case 5:
 		break;
@@ -111,28 +114,50 @@ void Library::customerOptionsHdlr(int choice)
 
 void Library::librarianOptionsHdlr(int choice)
 {
+	system("CLS");
+	string bookName;
+	Book* book;
+	int newStock;
+	int id;
+	string returnDate;
+	string payment;
 	switch (choice)
 	{
 	case 1:
-
+		book = new Book();
+		activeLibrarian->AddBook(book);
 		break;
 	case 2:
-
+		cout << "Delete a book" << endl;
+		bookName = enterBookName();
+		activeLibrarian->DeleteBook(bookName);
 		break;
 	case 3:
-
+		cout << "Update Book Stock" << endl;
+		bookName = enterBookName();
+		cout << "Enter stock to be added to the currect stock";
+		cin >> newStock;
+		activeLibrarian->UpdateBook(bookName, newStock);
 		break;
 	case 4:
-
+		cout << "Lend a book to customer" << endl;
+		bookName = enterBookName();
+		cout << "Enter cutomer ID: ";
+		cin >> id;
+		activeLibrarian->lendBook(bookName, "getDate()", static_cast<Customer*>(customers.persons.at(id)));
 		break;
 	case 5:
 
 		break;
 	case 6:
-
+		cout << "Add new payment method" << endl;
+		cout << "===============================================" << endl;
+		cout << "Enter new payment method: ";
+		cin >> payment;
+		activeLibrarian->AddPaymentMethod(payment);
 		break;
 	case 7:
-
+		getChoice(reports);
 		break;
 	case 8:
 
@@ -141,6 +166,48 @@ void Library::librarianOptionsHdlr(int choice)
 		getChoice(personTypeScreen);
 		break;
 	}
+}
+
+void Library::reportScreenHdlr(int choice)
+{
+	string date;
+	string author;
+	switch (choice)
+	{
+	case 1:
+	case 2:
+	case 3:
+	case 6:
+		activeLibrarian->generateReport(choice, customers.persons, "tm()");
+		break;
+	case 4:
+		cout << "Enter Current Date: ";
+		cin >> date;
+		activeLibrarian->generateReport(choice, customers.persons, "getDate()");
+		break;
+	case 5:
+		cout << "Enter Author Name: ";
+		cin >> author;
+		activeLibrarian->generateReport(choice, customers.persons, "tm()", author);
+		break;
+	case 7:
+	default:
+		getChoice(librarianOptions);
+		break;
+	}
+}
+
+tm Library::getDate()
+{
+	tm date;
+	cout << "Enter return date: " << endl;
+	cout << "Day: ";
+	cin >> date.tm_mday;
+	cout << "Month: ";
+	cin >> date.tm_mon;
+	cout << "Year: ";
+	cin >> date.tm_year;
+	return date;
 }
 
 void Library::loginScreen()
@@ -157,19 +224,23 @@ void Library::loginScreen()
 
 	// validate to login
 	if (currentUser == typLibrarian) {
-		activeUser = librarians.login(id, password);
+		activeUser = (librarians.login(id, password));
+		activeLibrarian = static_cast<Librarian*> (activeUser);
 	}
 
 	else if (currentUser == typCustomer) {
 		activeUser = customers.login(id, password);
+		activeCustomer = static_cast<Customer*> (activeUser);
 	}
 
 	else {
 		// error
 		exit(1);
 	}
-	if (activeUser)
+	if (currentUser == typLibrarian)
 		getChoice(librarianOptions);
+	else if (currentUser == typCustomer)
+		getChoice(customerOptions);
 	else
 		getChoice(personTypeScreen);
 }
@@ -192,11 +263,11 @@ void Library::registerScreen()
 
 	// create new object
 	if (currentUser == typLibrarian) {
-		activeUser = librarians.registeration(id, password, name); 
+		activeUser = librarians.registeration(id, password, name);
 	}
 
 	else if (currentUser == typCustomer) {
-		activeUser = customers.registeration(id, password, name); 
+		activeUser = customers.registeration(id, password, name);
 	}
 
 	else {
@@ -210,20 +281,18 @@ void Library::registerScreen()
 		getChoice(personTypeScreen);
 }
 
-Book* Library::searchForBook()
+string Library::enterBookName()
 {
 	cout << "==========================" << endl;
 	cout << "Enter Book Name: ";
 	string bookName;
 	cin >> bookName;
 
-	// return Book::getBook(bookName);
-	return nullptr;
+	return bookName;
 }
 
 
-vector<string> Library::paymentMethods = { {""}};
-unordered_map<string, Book*> Library::booksList = { {"",nullptr} };
-vector<borrowedBook*> Library::borrowedBookList = { {nullptr} };
-vector<string> Library::categoryList = { {""} };
- 
+vector<string> Library::paymentMethods = {};
+unordered_map<string, Book*> Library::booksList = { };
+vector<borrowedBook*> Library::borrowedBookList = {  };
+vector<string> Library::categoryList = {  };

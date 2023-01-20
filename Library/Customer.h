@@ -8,7 +8,6 @@ class Customer : public Person
 {
 public:
 	Customer(int _ID, int _password, string _name);
-	
+
 	vector<string> NotificationList;
 };
-

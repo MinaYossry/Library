@@ -17,4 +17,3 @@ public:
 	string getName() const;
 	Book* searchBook(string name);
 };
-

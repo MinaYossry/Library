@@ -2,7 +2,7 @@
 #include "Book.h"
 #include "Library.h"
 Person::Person(int _ID, int _password, string _name)
-	: ID (_ID), password {_password}, name {_name}
+	: ID(_ID), password{ _password }, name{ _name }
 {
 }
 

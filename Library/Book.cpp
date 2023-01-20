@@ -1,5 +1,26 @@
 #include "Book.h"
 
+Book::Book()
+{
+	cout << "Adding new book" << endl;
+	cout << "=================================================================" << endl;
+	cout << "ID: ";
+	cin >> id;
+	cout << "Name: ";
+	cin >> name;
+	cout << "Price: ";
+	cin >> price;
+	cout << "Author: ";
+	cin >> author;
+	status = true;
+	cout << "Category: ";
+	cin >> category;
+	cout << "Edition: ";
+	cin >> edition;
+	cout << "Stock: ";
+	cin >> stock;
+}
+
 Book::Book(int _id, string _name, float _price, string _author, bool _status, string _category, string _edition, int _stock)
 {
 	id = _id;
