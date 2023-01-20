@@ -65,9 +65,9 @@ void Librarian::AddPaymentMethod(string paymentMethodName) {
 };
 
 
-void Librarian::generateReport(int choice,vector<Person*> customerList,string currentDate="0", string author = "") {
+void Librarian::generateReport(int choice,vector<Person*> customerList,string currentDate, string author) {
 
-
+	int counter = 0;
 	switch (choice)
 	{
 	case 1:// i have to get the borrowed books list and number of borrowed books
@@ -94,7 +94,7 @@ void Librarian::generateReport(int choice,vector<Person*> customerList,string cu
 		}
 		break;
 	case 3: // number & list of each book in each category
-		int counter ;
+		
 		for (size_t i = 0; i < Library::categoryList.size(); i++)
 		{
 			counter = 0;
@@ -115,7 +115,7 @@ void Librarian::generateReport(int choice,vector<Person*> customerList,string cu
 		break;
 	case 4: // total number & list of all missed books from the library based on date i guess
 		//assume return date is day number from 1-31 in the same month
-		int counter = 0;
+		 counter = 0;
 		for (int i = 0; i < Library::borrowedBookList.size(); i++)
 		{
 			if (std::stoi(Library::borrowedBookList.at(0)->returnDate) > std::stoi(currentDate))
@@ -129,7 +129,7 @@ void Librarian::generateReport(int choice,vector<Person*> customerList,string cu
 		
 		break;
 	case 5: // total number & list of books for specific author
-		int counter = 0;
+	 counter = 0;
 		for (auto& it : Library::booksList)
 		{
 			if (it.second->getAuthor() == author)

@@ -31,7 +31,7 @@ public:
 
 	// you can just cout each report based on the choice from 1-6
 	//iam jsut sending this list
-	void generateReport(int choice,vector<Person*> customerList,string currentDate="0",string author="");
+	void generateReport(int choice,vector<Person*> customerList,string currentDate,string author);
 
 };
 
