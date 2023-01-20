@@ -71,7 +71,7 @@ bool Customer::choosePaymentMethod(double bill)
     int choice{};
     do {
         cout << "Choice: ";
-        cin >> choice;
+        choice = Library::getValidInt();
     } while (choice < 1 || choice > Library::paymentMethods.size() + 1);
 
     cout << "You chose: " << Library::paymentMethods.at(choice - 1) << endl;
