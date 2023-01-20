@@ -1,10 +1,13 @@
 #pragma once
+#include <string>
+#include <vector>
+
 #include "Person.h"
 #include "Book.h"
 #include "Customer.h"
-#include<string>
-#include <vector>
+
 using namespace std;
+
 class Librarian : public Person
 {
 public:
@@ -21,17 +24,20 @@ public:
 
 
 	// so i search for that book and then update with case lend --decrease its stock number for the duration
-	void lendBook(string bookName, string returnDate,Customer* custObject);
+	void lendBook(string bookName, const tm& returnDate, Customer* custObject);
 
 	// sends notification to the customer
-	void requestBorrowedBook(Customer* customer,Book* bookObject, vector<Customer*> CustomerList);
+	void requestBorrowedBook(Customer* customer, Book* bookObject);
 	//creates new paymentmethod  and add it to the payment method list
 	void AddPaymentMethod(string paymentMethodName);
 
 
 	// you can just cout each report based on the choice from 1-6
 	//iam jsut sending this list
-	void generateReport(int choice, const unordered_map<int, Person*>& customers, const string& currectDate, const string& author = "");
+	void generateReport(int choice, const unordered_map<int, Person*>& customers, const tm& currectDate, const string& author = "");
+
+	bool compareDates(const tm& currentDate, const tm& returnDate);
 
 };
+
 

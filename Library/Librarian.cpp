@@ -1,8 +1,6 @@
 #include "Librarian.h"
-#include <unordered_map>
-#include <string>
-#include "Book.h"
 #include "Library.h"
+
 Librarian::Librarian(int _ID, int _password, string _name)
 	: Person(_ID, _password, _name) { }
 
@@ -10,7 +8,7 @@ Librarian::Librarian(int _ID, int _password, string _name)
 void Librarian::AddBook(Book* object) {
 
 	Library::booksList.insert_or_assign(object->getName(), object);
-	
+
 };
 // free memory after deletetion don't forget
 void Librarian::DeleteBook(string bookName) {
@@ -30,27 +28,33 @@ void Librarian::UpdateBook(string bookName, int newStock) {
 	}
 }
 
-void Librarian::lendBook(string bookName, string _returnDate, Customer* obj) {
-		
+void Librarian::lendBook(string bookName, const tm& _returnDate, Customer* obj) {
+
 	Book* b1 = searchBook(bookName);
-	borrowedBook b2;
-	b2.book = b1;
-	b2.returnDate = _returnDate;
-	
-	Library::borrowedBookList.push_back(&b2);
+	borrowedBook* b2 = new borrowedBook();
+	b2->book = b1;
+	b2->returnDate = _returnDate;
+	b2->customer = obj;
+
+	Library::borrowedBookList.push_back(b2);
 };
 
-///lets consider that we have customer list or vector whatever
-void Librarian::requestBorrowedBook(Customer* _customer, Book* bookObject, vector<Customer*> CustomerList) {
-	
-	for (int i = 0; i < CustomerList.size(); i++)
-	{
-		if (CustomerList.at(i)->getName() == _customer->getName())
-		{
-			CustomerList.at(i)->NotificationList.push_back("please return the book :" + bookObject->getName());
-		}
-	}
-};
+/////lets consider that we have customer list or vector whatever
+//void Librarian::requestBorrowedBook(Customer* _customer, Book* bookObject) {
+//	//psudo code for the customer vector
+//	vector<Customer*> CustomerList;
+//	for (int i = 0; i < CustomerList.size(); i++)
+//	{
+//		if (CustomerList.at(i) == _customer)
+//		{
+//			CustomerList.at(i)->NotificationList.push_back("please return the book :" + bookObject->getName());
+//		}
+//	}
+//};
+
+void Librarian::requestBorrowedBook(Customer* _customer, Book* bookObject) {
+	// TODO
+}
 
 void Librarian::AddPaymentMethod(string paymentMethodName) {
 
@@ -58,16 +62,17 @@ void Librarian::AddPaymentMethod(string paymentMethodName) {
 };
 
 
-void Librarian::generateReport(int choice, const unordered_map<int, Person*>& customers, const string& currectDate, const string& author ) {
+void Librarian::generateReport(int choice, const unordered_map<int, Person*>& customers, const tm& currectDate, const string& author) {
 
-	int counter = 0;
+	int counter;
+
 	switch (choice)
 	{
 	case 1:// i have to get the borrowed books list and number of borrowed books
 		system("CLS");
-		cout << "Number and list of borrowed books"<<endl;
+		cout << "Number and list of borrowed books" << endl;
 		cout << "=================================" << endl;
-		cout << "Number of borrowed books is : " << Library::borrowedBookList.size()<< endl;
+		cout << "Number of borrowed books is : " << Library::borrowedBookList.size() << endl;
 		cout << "Borrowed Book List :\n" << "---------------\n";
 		for (int i = 0; i < Library::borrowedBookList.size(); i++)
 		{
@@ -81,13 +86,12 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
 		cout << "=================================" << endl;
 		cout << "Number of  books is : " << Library::booksList.size() << endl;
 		cout << "Books List :\n" << "---------------\n";
-		for (auto& it:Library::booksList)
+		for (auto& it : Library::booksList)
 		{
 			cout << it.first << endl;
 		}
 		break;
 	case 3: // number & list of each book in each category
-		
 		for (size_t i = 0; i < Library::categoryList.size(); i++)
 		{
 			counter = 0;
@@ -108,21 +112,18 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
 		break;
 	case 4: // total number & list of all missed books from the library based on date i guess
 		//assume return date is day number from 1-31 in the same month
-		 counter = 0;
+		counter = 0;
 		for (int i = 0; i < Library::borrowedBookList.size(); i++)
 		{
-			if (std::stoi(Library::borrowedBookList.at(0)->returnDate) > std::stoi(currectDate))
+			if (compareDates(currectDate, Library::borrowedBookList.at(i)->returnDate)) {
+				cout << counter + 1 << ") " << Library::borrowedBookList.at(i)->book->getName() << endl;
 				counter++;
+			}
 		}
-		cout << "Number of missed books from the library is : " << counter << endl;
-		for (int i = 0; i < Library::borrowedBookList.size(); i++)
-		{
-			cout << i + 1 << ") " << Library::borrowedBookList.at(i)->book->getName() << endl;
-		}
-		
+
 		break;
 	case 5: // total number & list of books for specific author
-	 counter = 0;
+		counter = 0;
 		for (auto& it : Library::booksList)
 		{
 			if (it.second->getAuthor() == author)
@@ -136,14 +137,20 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
 		}
 		break;
 	case 6: // total number & list of customer's details
-		//cout << "Total number of customers is : " << customerList.size() << endl;
-		//for (int i = 0; i < customerList.size(); i++)
-		//{
-		//	cout << i + 1 << ") " << customerList.at(i)->getName()<<endl;
-		//}
+		cout << "Total number of customers is : " << customers.size() << endl;
+		for (const auto& customer : customers) {
+
+			cout << "ID: " << customer.first << ") " << customer.second->getName() << endl;
+
+		}
 		break;
 	}
-};
+}
+bool Librarian::compareDates(const tm& currentDate, const tm& returnDate)
+{
+	return currentDate.tm_year > returnDate.tm_year || currentDate.tm_mon > returnDate.tm_mon || currentDate.tm_mday > returnDate.tm_mday;
+}
+;
 
 
 /// some notes on the side

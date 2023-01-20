@@ -18,7 +18,7 @@ using namespace std;
 struct borrowedBook
 {
 	Book* book;
-	string returnDate;
+	tm returnDate;
 	Customer* customer;
 };
 

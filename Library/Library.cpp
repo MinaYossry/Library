@@ -144,7 +144,7 @@ void Library::librarianOptionsHdlr(int choice)
 		bookName = enterBookName();
 		cout << "Enter cutomer ID: ";
 		cin >> id;
-		activeLibrarian->lendBook(bookName, "getDate()", static_cast<Customer*>(customers.persons.at(id)));
+		activeLibrarian->lendBook(bookName, getDate(), static_cast<Customer*>(customers.persons.at(id)));
 		break;
 	case 5:
 
@@ -178,17 +178,17 @@ void Library::reportScreenHdlr(int choice)
 	case 2:
 	case 3:
 	case 6:
-		activeLibrarian->generateReport(choice, customers.persons, "tm()");
+		activeLibrarian->generateReport(choice, customers.persons, tm());
 		break;
 	case 4:
 		cout << "Enter Current Date: ";
 		cin >> date;
-		activeLibrarian->generateReport(choice, customers.persons, "getDate()");
+		activeLibrarian->generateReport(choice, customers.persons, getDate());
 		break;
 	case 5:
 		cout << "Enter Author Name: ";
 		cin >> author;
-		activeLibrarian->generateReport(choice, customers.persons, "tm()", author);
+		activeLibrarian->generateReport(choice, customers.persons, tm(), author);
 		break;
 	case 7:
 	default:
