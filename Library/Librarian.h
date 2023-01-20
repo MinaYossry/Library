@@ -24,7 +24,7 @@ public:
 	void lendBook(string bookName, string returnDate,Customer* custObject);
 
 	// sends notification to the customer
-	void requestBorrowedBook(Customer* customer,Book* bookObject);
+	void requestBorrowedBook(Customer* customer,Book* bookObject, vector<Customer*> CustomerList);
 	//creates new paymentmethod  and add it to the payment method list
 	void AddPaymentMethod(string paymentMethodName);
 

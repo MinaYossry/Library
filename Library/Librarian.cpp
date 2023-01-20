@@ -48,12 +48,11 @@ void Librarian::lendBook(string bookName, string _returnDate, Customer* obj) {
 };
 
 ///lets consider that we have customer list or vector whatever
-void Librarian::requestBorrowedBook(Customer* _customer, Book* bookObject) {
-	//psudo code for the customer vector
-	vector<Customer*> CustomerList;
+void Librarian::requestBorrowedBook(Customer* _customer, Book* bookObject, vector<Customer*> CustomerList) {
+	
 	for (int i = 0; i < CustomerList.size(); i++)
 	{
-		if (CustomerList.at(i) == _customer)
+		if (CustomerList.at(i)->getName() == _customer->getName())
 		{
 			CustomerList.at(i)->NotificationList.push_back("please return the book :" + bookObject->getName());
 		}
