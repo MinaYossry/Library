@@ -123,6 +123,10 @@ void Library::customerOptionsHdlr(int choice)
 		continueProgram();
 		break;
 	case 5:
+		activeCustomer->displayMessage();
+		continueProgram();
+		break;
+	case 6:
 	default:
 		currentUser = typNone;
 		activeCustomer = nullptr; activeLibrarian = nullptr; activeUser = nullptr;
@@ -172,7 +176,7 @@ void Library::librarianOptionsHdlr(int choice)
 		continueProgram();
 		break;
 	case 5:
-
+		activeLibrarian->requestBorrowedBook(getDate());
 		continueProgram();
 		break;
 	case 6:
@@ -207,7 +211,7 @@ void Library::reportScreenHdlr(int choice)
 	case 2:
 	case 3:
 	case 6:
-		activeLibrarian->generateReport(choice, customers.persons, tm());
+		activeLibrarian->generateReport(choice, customers.persons, Date());
 		break;
 	case 4:
 		activeLibrarian->generateReport(choice, customers.persons, getDate());
@@ -216,7 +220,7 @@ void Library::reportScreenHdlr(int choice)
 		cout << "Enter Author Name: " << endl;
 		getline(cin >> ws, author);
 		cout << endl;
-		activeLibrarian->generateReport(choice, customers.persons, tm(), author);
+		activeLibrarian->generateReport(choice, customers.persons, Date(), author);
 		break;
 	case 7:
 	default:
@@ -237,24 +241,24 @@ void Library::continueProgram()
 		exit(1); //error
 }
 
-tm Library::getDate()
+Date Library::getDate()
 {
-	tm date;
+	Date date;
 	cout << "Enter date: " << endl;
 	do {
 		cout << "Day: ";
-		date.tm_mday = Library::getValidInt();
-	} while (date.tm_mday < 1 || date.tm_mday > 31);
+		date.day = Library::getValidInt();
+	} while (date.day < 1 || date.day > 31);
 	do {
 
 		cout << "Month: ";
-		date.tm_mon = Library::getValidInt();
-	} while (date.tm_mon < 1 || date.tm_mon > 12);
+		date.month = Library::getValidInt();
+	} while (date.month < 1 || date.month > 12);
 	do {
 
 		cout << "Year: ";
-		date.tm_year = Library::getValidInt();
-	} while (date.tm_year < 2000 || date.tm_year > 2025);
+		date.year = Library::getValidInt();
+	} while (date.year < 2000 || date.year > 2025);
 	return date;
 }
 

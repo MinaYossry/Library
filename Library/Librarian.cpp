@@ -35,7 +35,7 @@ void Librarian::UpdateBook(string bookName, int newStock) {
 	}
 }
 
-void Librarian::lendBook(string bookName, const tm& _returnDate, Customer* obj) {
+void Librarian::lendBook(string bookName, const Date& _returnDate, Customer* obj) {
 
 	Book* b1 = searchBook(bookName);
 	if (b1 && obj)
@@ -63,8 +63,17 @@ void Librarian::lendBook(string bookName, const tm& _returnDate, Customer* obj) 
 //	}
 //};
 
-void Librarian::requestBorrowedBook(Customer* _customer, Book* bookObject) {
+void Librarian::requestBorrowedBook(const Date &currentDate) {
 	// TODO
+	cout << endl;
+	for (auto borrowedBook : Library::borrowedBookList)
+	{
+		if (compareDates(currentDate, borrowedBook->returnDate)) {
+			cout << "Book Title: " << borrowedBook->book->getTitle() << " || " << "Customer: " << borrowedBook->customer->getName();
+			borrowedBook->customer->recieveMessage("Please return book ( " + borrowedBook->book->getTitle() + " ) becaused it passed its return date");
+		}
+	}
+	cout << endl << "Messages is sent to customers" << endl;
 }
 
 void Librarian::AddPaymentMethod(string paymentMethodName) {
@@ -73,7 +82,7 @@ void Librarian::AddPaymentMethod(string paymentMethodName) {
 };
 
 
-void Librarian::generateReport(int choice, const unordered_map<int, Person*>& customers, const tm& currectDate, const string& author) {
+void Librarian::generateReport(int choice, const unordered_map<int, Person*>& customers, const Date& currectDate, const string& author) {
 
 	system("CLS");
 	int counter;
@@ -88,8 +97,8 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
 		for (int i = 0; i < Library::borrowedBookList.size(); i++)
 		{
 			auto borrowedBook = Library::borrowedBookList.at(i);
-			tm date = borrowedBook->returnDate;
-			string returnDate = to_string(date.tm_mday)+"/"+ to_string(date.tm_mon)+"/"+ to_string(date.tm_year);
+			Date date = borrowedBook->returnDate;
+			string returnDate = to_string(date.day)+"/"+ to_string(date.month)+"/"+ to_string(date.year);
 			cout << i + 1 << ") " << borrowedBook->book->getTitle() << " || return date " << returnDate << " || Customer " << borrowedBook->customer->getName() << endl;
 		}
 		break;
@@ -135,8 +144,8 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
 		{
 			if (compareDates(currectDate, Library::borrowedBookList.at(i)->returnDate)) {
 				auto borrowedBook = Library::borrowedBookList.at(i);
-				tm date = borrowedBook->returnDate;
-				string returnDate = to_string(date.tm_mday) + "/" + to_string(date.tm_mon) + "/" + to_string(date.tm_year);
+				Date date = borrowedBook->returnDate;
+				string returnDate = to_string(date.day) + "/" + to_string(date.month) + "/" + to_string(date.year);
 				cout << counter + 1 << ") " << borrowedBook->book->getTitle() << " || return date " << returnDate << " || Customer " << borrowedBook->customer->getName() << endl;
 
 				counter++;

@@ -17,4 +17,5 @@ public:
     void returnBook(Book* book);
     bool choosePaymentMethod(double bill);
     void recieveMessage(const string& message);
+    void displayMessage();
 };
