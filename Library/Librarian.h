@@ -11,7 +11,7 @@ using namespace std;
 class Librarian : public Person
 {
 public:
-	Librarian(int _ID, int _password, string _name);
+	Librarian(int _ID, string _name, int _password);
 	// i give the addBook the book object and the array we want to attach this new book  to it
 	void AddBook(Book* object);
 
@@ -36,7 +36,6 @@ public:
 	//iam jsut sending this list
 	void generateReport(int choice, const unordered_map<int, Person*>& customers, const tm& currectDate, const string& author = "");
 
-	bool compareDates(const tm& currentDate, const tm& returnDate);
 
 };
 

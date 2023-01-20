@@ -8,17 +8,11 @@
 class Customer : public Person
 {
 private:
-    vector<Book> boughtBooks;
-    vector<Book> borrowedBooks;
     double accountBalance = 500;
-    string paymentMethod;
 public:
-    Customer(int ID, int password, string name);
-    void buyBook(Book& book);
-    void borrowBook(Book& book);
-    void returnBook(Book& book);
-    void choosePaymentMethod();
-    Book* searchForBook(string title);
-    vector<Book>& getBoughtBooks();
-    vector<Book>& getBorrowedBooks();
+    Customer(int ID, string name, int password);
+    void buyBook(Book* book);
+    void borrowBook(Book* book);
+    void returnBook(Book* book);
+    bool choosePaymentMethod(double bill);
 };

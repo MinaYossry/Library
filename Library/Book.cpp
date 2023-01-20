@@ -1,4 +1,5 @@
 #include "Book.h"
+#include "Library.h"
 
 Book::Book()
 {
@@ -7,60 +8,66 @@ Book::Book()
 	cout << "ID: ";
 	cin >> id;
 	cout << "Name: ";
-	cin >> name;
+	cin >> title;
 	cout << "Price: ";
 	cin >> price;
 	cout << "Author: ";
 	cin >> author;
-	status = true;
+	isAvailable = true;
 	cout << "Category: ";
 	cin >> category;
-	cout << "Edition: ";
-	cin >> edition;
+	Library::categoryList.insert(category);
 	cout << "Stock: ";
 	cin >> stock;
 }
 
-Book::Book(int _id, string _name, float _price, string _author, bool _status, string _category, string _edition, int _stock)
+Book::Book(int _id, string _title, string _author, int _publicationYear, double _price, int _stock, string _category)
 {
 	id = _id;
-	name = _name;
+	title = _title;
 	price = _price;
 	author = _author;
-	status = _status;
+	isAvailable = true;
 	category = _category;
-	edition = _edition;
 	stock = _stock;
+	publicationYear = _publicationYear;
+	Library::categoryList.insert(_category);
 }
-string Book::getName() {
-	return this->name;
-}
+
 void Book::setStock(int value)
 {
 	this->stock += value;
+	if (stock == 0)
+		isAvailable = false;
+	else
+		isAvailable = true;
+
+}
+int Book::getStock() const
+{
+	return stock;
+}
+void Book::displayInfo() const
+{
+
+	system("CLS");
+	cout << "====================================================" << endl;
+	cout << "Title: " << title << endl;
+	cout << "Author: " << author << endl;
+	cout << "Publication Year: " << publicationYear << endl;
+	cout << "Price: " << price << endl;
+	cout << "Category: " << category << endl;
+	cout << "====================================================" << endl;
 }
 string Book::getCategory() {
 	return this->category;
-}
-string Book::getAuthor() {
-	return this->author;
-}
-
-
-Book::Book(int id, string title, string author, string publisher, int publicationYear, double price)
-    : id(id), title(title), author(author), publisher(publisher), publicationYear(publicationYear), price(price)
-{
-    isAvailable = true;
 }
 
 int Book::getId() const { return id; }
 string Book::getTitle() const { return title; }
 string Book::getAuthor() const { return author; }
-string Book::getPublisher() const { return publisher; }
 int Book::getPublicationYear() const { return publicationYear; }
 bool Book::getIsAvailable() const { return isAvailable; }
 double Book::getPrice() const { return price; }
-vector<Book>& Book::getCollection() {
-    return collection;
-}
+
 void Book::setAvailability(bool isAvailable) { this->isAvailable = isAvailable; }

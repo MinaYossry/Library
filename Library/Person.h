@@ -12,9 +12,12 @@ protected:
 	int password;
 
 public:
-	Person(int _ID, int _password, string _name);
+	Person(int _ID, string _name, int _password);
 	int getPassword() const;
 	int getID() const;
 	string getName() const;
 	Book* searchBook(string name);
+
+	bool compareDates(const tm& currentDate, const tm& returnDate);
+
 };

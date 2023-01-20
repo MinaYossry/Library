@@ -1,82 +1,87 @@
 #include "Customer.h"
+#include "Library.h"
 
-Customer::Customer(int ID, int password, string name) : Person( ID, password,name ) {
+Customer::Customer(int ID, string name, int password) : Person( ID,name, password) {
     accountBalance = 500;
 }
 
-void Customer::buyBook(Book& book)
+void Customer::buyBook(Book* book)
 {
     // code to buy a book
-    if (book.getIsAvailable()) {
-        if (accountBalance >= book.getPrice()) {
-            accountBalance -= book.getPrice();
-            boughtBooks.push_back(book);
-            book.setAvailability(false);
-        }
-        else {
-            cout << "Not Enough balance" << endl;
-        }
+    if (book->getIsAvailable()) {
+        if (choosePaymentMethod(book->getPrice()))
+            book->setStock(-1);
     }
     else {
         cout << "Book is not available" << endl;
     }
 }
 
-void Customer::borrowBook(Book& book)
+void Customer::borrowBook(Book* book)
 {
     // code to borrow a book
-    if (book.getIsAvailable()) {
-        borrowedBooks.push_back(book);
-        book.setAvailability(false);
+    if (book->getIsAvailable()) {
+        if (choosePaymentMethod(book->getPrice() * 0.15))
+        {
+            Library::borrowedBookList.push_back(new borrowedBook(book, Library::getDate(), this));
+            book->setStock(-1);
+        }
     }
     else {
         cout << "Book is not available" << endl;
     }
 }
 
-void Customer::returnBook(Book& book)
+void Customer::returnBook(Book* book)
 {
     // code to return a book
-    book.setAvailability(true);
-    borrowedBooks.erase(std::remove(borrowedBooks.begin(), borrowedBooks.end(), book), borrowedBooks.end());
+    borrowedBook* target = nullptr;
+    bool found = false;
+    for (const auto& borrowedBook : Library::borrowedBookList)
+    {
+        if (borrowedBook->book == book)
+        {
+            target = borrowedBook;
+            found = true;
+            break;
+        }
+    }
+
+    if (found) {
+        if (compareDates(target->returnDate, Library::getDate()))
+            choosePaymentMethod(target->book->getPrice() * 0.15);
+
+        book->setStock(1);
+        Library::borrowedBookList.erase(std::remove(Library::borrowedBookList.begin(), Library::borrowedBookList.end(), target), Library::borrowedBookList.end());
+    }
+
 }
 
-void Customer::choosePaymentMethod()
+bool Customer::choosePaymentMethod(double bill)
 {
-    //// code to choose a payment method
-    cout << "Enter Payment Method: " << endl;
-    cout << "1. Credit Card" << endl;
-    cout << "2. Debit Card" << endl;
-    cout << "3. Cash" << endl;
-    int choice;
-    cin >> choice;
-    switch (choice) {
-    case 1:
-        paymentMethod = "Credit Card";
-        break;
-    case 2:
-        paymentMethod = "Debit Card";
-        break;
-    case 3:
-        paymentMethod = "Cash";
-        break;
-    default:
-        break;
+    system("CLS");
+    cout << "=====================================" << endl;
+    for (size_t i = 0; i < Library::paymentMethods.size(); i++)
+    {
+        cout << i + 1 << "- " << Library::paymentMethods.at(i) << endl;
     }
-}
+    cout << Library::paymentMethods.size() + 1 << "- exit" << endl;
+    cout << "=====================================" << endl;
 
-Book* Customer::searchForBook(string title)
-{
-    // code to search for a book by title
-    for (auto& book : Book::getCollection()) {
-        if (book.getTitle() == title) return &book;
+    int choice{};
+    do {
+        cout << "Choice: ";
+        cin >> choice;
+    } while (choice < 1 || choice > Library::paymentMethods.size() + 1);
+
+    cout << "You chose: " << Library::paymentMethods.at(choice - 1) << endl;
+    cout << "Checking balance .... " << endl;
+    if (accountBalance >= bill) {
+        cout << "Congratulation" << endl;
+        return true;
     }
-    cout << "Book not found" << endl;
-    return nullptr;
-}
-vector<Book>& Customer::getBoughtBooks() {
-    return boughtBooks;
-}
-vector<Book>& Customer::getBorrowedBooks() {
-    return borrowedBooks;
+    else {
+        cout << "Not Enough balance" << endl;
+        return false;
+    }
 }

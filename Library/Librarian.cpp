@@ -1,13 +1,13 @@
 #include "Librarian.h"
 #include "Library.h"
 
-Librarian::Librarian(int _ID, int _password, string _name)
-	: Person(_ID, _password, _name) { }
+Librarian::Librarian(int _ID, string _name, int _password)
+	: Person(_ID, _name, _password) { }
 
 ///
 void Librarian::AddBook(Book* object) {
 
-	Library::booksList.insert_or_assign(object->getName(), object);
+	Library::booksList.insert_or_assign(object->getTitle(), object);
 
 };
 // free memory after deletetion don't forget
@@ -31,10 +31,7 @@ void Librarian::UpdateBook(string bookName, int newStock) {
 void Librarian::lendBook(string bookName, const tm& _returnDate, Customer* obj) {
 
 	Book* b1 = searchBook(bookName);
-	borrowedBook* b2 = new borrowedBook();
-	b2->book = b1;
-	b2->returnDate = _returnDate;
-	b2->customer = obj;
+	borrowedBook* b2 = new borrowedBook(b1, _returnDate, obj);
 
 	Library::borrowedBookList.push_back(b2);
 };
@@ -47,7 +44,7 @@ void Librarian::lendBook(string bookName, const tm& _returnDate, Customer* obj) 
 //	{
 //		if (CustomerList.at(i) == _customer)
 //		{
-//			CustomerList.at(i)->NotificationList.push_back("please return the book :" + bookObject->getName());
+//			CustomerList.at(i)->NotificationList.push_back("please return the book :" + bookObject->getTitle());
 //		}
 //	}
 //};
@@ -65,7 +62,7 @@ void Librarian::AddPaymentMethod(string paymentMethodName) {
 void Librarian::generateReport(int choice, const unordered_map<int, Person*>& customers, const tm& currectDate, const string& author) {
 
 	int counter;
-
+	int categoryCounter = 1;
 	switch (choice)
 	{
 	case 1:// i have to get the borrowed books list and number of borrowed books
@@ -76,7 +73,7 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
 		cout << "Borrowed Book List :\n" << "---------------\n";
 		for (int i = 0; i < Library::borrowedBookList.size(); i++)
 		{
-			cout << i + i << ") " << Library::borrowedBookList.at(i)->book->getName();
+			cout << i + i << ") " << Library::borrowedBookList.at(i)->book->getTitle();
 		}
 		break;
 	case 2: // total number & list of all books in the library 
@@ -92,22 +89,27 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
 		}
 		break;
 	case 3: // number & list of each book in each category
-		for (size_t i = 0; i < Library::categoryList.size(); i++)
+		categoryCounter = 1;
+		for (const auto& category : Library::categoryList)
 		{
 			counter = 0;
-			cout << i + 1 << ") " << Library::categoryList.at(i) << endl;
+			cout << categoryCounter << ") " << category << endl;
 			for (auto& it : Library::booksList)
 			{
-				if (it.second->getCategory() == Library::categoryList.at(i))
+				if (it.second->getCategory() == category)
 					counter += 1;
 			}
+
 			cout << "number of books in this Category is :" << counter << endl;
-			cout << "===============================";
+			cout << "===============================" << endl;
 			for (auto& it : Library::booksList)
 			{
-				if (it.second->getCategory() == Library::categoryList.at(i))
+				if (it.second->getCategory() == category)
 					cout << it.first << endl;
 			}
+			cout << "===============================" << endl;
+
+			categoryCounter++;
 		}
 		break;
 	case 4: // total number & list of all missed books from the library based on date i guess
@@ -116,7 +118,7 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
 		for (int i = 0; i < Library::borrowedBookList.size(); i++)
 		{
 			if (compareDates(currectDate, Library::borrowedBookList.at(i)->returnDate)) {
-				cout << counter + 1 << ") " << Library::borrowedBookList.at(i)->book->getName() << endl;
+				cout << counter + 1 << ") " << Library::borrowedBookList.at(i)->book->getTitle() << endl;
 				counter++;
 			}
 		}
@@ -140,16 +142,14 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
 		cout << "Total number of customers is : " << customers.size() << endl;
 		for (const auto& customer : customers) {
 
+
 			cout << "ID: " << customer.first << ") " << customer.second->getName() << endl;
 
 		}
 		break;
 	}
 }
-bool Librarian::compareDates(const tm& currentDate, const tm& returnDate)
-{
-	return currentDate.tm_year > returnDate.tm_year || currentDate.tm_mon > returnDate.tm_mon || currentDate.tm_mday > returnDate.tm_mday;
-}
+
 ;
 
 

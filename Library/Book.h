@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include<unordered_map>
+
 using namespace std;
 class Book
 {
@@ -22,19 +23,18 @@ private:
     double price;
 
 public:
-    Book(int id, string title, string author, string publisher, int publicationYear, double price);
+	Book();
+    Book(int _id, string _title, string _author, int _publicationYear, double _price, int _stock, string _category);
 
     int getId() const;
     string getTitle() const;
     string getAuthor() const;
-    string getPublisher() const;
     int getPublicationYear() const;
     bool getIsAvailable() const;
     double getPrice() const;
-    static vector<Book>& getCollection();
     void setAvailability(bool isAvailable);
-};
-	Book();
 	string getCategory();
-	void setStock(int value);
+    void setStock(int value);
+    int getStock() const;
+    void displayInfo() const;
 };
