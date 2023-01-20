@@ -364,6 +364,13 @@ void Library::registerScreen()
 
 string Library::enterBookName()
 {
+	int counter = 0;
+	cout << "Available books"<< endl;
+	cout << "===============================" << endl;
+	for (auto& it : Library::booksList)
+	{
+		cout << ++counter << ") " << it.first << endl;
+	}
 	cout << "==========================" << endl;
 	cout << "Enter Book Name: ";
 	string bookName;

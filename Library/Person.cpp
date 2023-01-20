@@ -32,5 +32,6 @@ Book* Person::searchBook(string name)
 
 bool Person::compareDates(const tm& currentDate, const tm& returnDate)
 {
-	return currentDate.tm_year > returnDate.tm_year || currentDate.tm_mon > returnDate.tm_mon || currentDate.tm_mday > returnDate.tm_mday;
+	return currentDate.tm_year > returnDate.tm_year || (currentDate.tm_year > returnDate.tm_year == currentDate.tm_mon > returnDate.tm_mon)
+		|| (currentDate.tm_year == returnDate.tm_year && currentDate.tm_mon == returnDate.tm_mon && currentDate.tm_mday > returnDate.tm_mday);
 }
