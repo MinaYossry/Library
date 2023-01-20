@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include "Book.h"
+#include "Date.h"
+
 
 using namespace std;
 
@@ -18,6 +20,6 @@ public:
 	string getName() const;
 	Book* searchBook(string name);
 
-	bool compareDates(const tm& currentDate, const tm& returnDate);
+	bool compareDates(const Date& currentDate, const Date& returnDate);
 
 };

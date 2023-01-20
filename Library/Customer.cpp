@@ -94,3 +94,14 @@ void Customer::recieveMessage(const string& message)
 {
     messages.push_back(message);
 }
+
+void Customer::displayMessage()
+{
+    system("CLS");
+    cout << "Messages" << endl;
+    cout << "==========================================" << endl;
+    for (const auto& message : messages) {
+        cout << message << endl;
+    }
+    cout << "==========================================" << endl;
+}

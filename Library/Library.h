@@ -15,16 +15,18 @@
 #include "Librarian.h"
 #include "PersonsManager.h"
 #include "Book.h"
+#include "Date.h"
 
 using namespace std;
+
 
 
 struct borrowedBook
 {
 	Book* book;
-	tm returnDate;
+	Date returnDate;
 	Customer* customer;
-	borrowedBook(Book* _book, const tm& _returnDate, Customer* _customer)
+	borrowedBook(Book* _book, const Date& _returnDate, Customer* _customer)
 		: book{ _book }, returnDate{ _returnDate }, customer{ _customer } {};
 };
 
@@ -60,6 +62,7 @@ private:
 		"Borrow a book",
 		"Search for a book", // should be in the person class
 		"Return a book",
+		"Display messages",
 	};
 
 	const vector<string> librarianOptions{
@@ -151,7 +154,7 @@ public:
 	void reportScreenHdlr(int choice);
 	void continueProgram();
 
-	static tm getDate();
+	static Date getDate();
 
 
 	// my added dynamic lists (taha)
@@ -161,7 +164,6 @@ public:
 	static unordered_set<string> categoryList;
 	static int getValidInt();
 	static double getValidDouble();
-	static void printDate();
 
 	//vector<Customer*> CustomerList;
 
