@@ -1,7 +1,8 @@
 #include "PersonsManager.h"
 
 bool PersonsManager::validateLoginCred(int _ID, int _password)
-{
+{   
+    /*  This function checks if the    */
     return PersonsManager::persons.find(_ID) != PersonsManager::persons.end() && PersonsManager::persons.at(_ID)->getPassword() == _password;
 }
 
@@ -18,10 +19,10 @@ Person* PersonsManager::registeration(int _ID, int _password, const std::string&
     Person* newPerson{ nullptr };
     if (persons.find(_ID) == persons.end()) {
         if (type == typLibrarian) {
-            newPerson = new Librarian(_ID, _password, _name);
+            newPerson = new Librarian(_ID, _name, _password);
         }
         else if (type == typCustomer) {
-            newPerson = new Customer(_ID, _password, _name);
+            newPerson = new Customer(_ID, _name, _password);
         }
 
         if (newPerson)

@@ -1,7 +1,8 @@
 #include "Person.h"
-
-Person::Person(int _ID, int _password, string _name)
-	: ID (_ID), password {_password}, name {_name}
+#include "Book.h"
+#include "Library.h"
+Person::Person(int _ID, string _name, int _password)
+	: ID(_ID), password{ _password }, name{ _name }
 {
 }
 
@@ -22,9 +23,15 @@ string Person::getName() const
 
 Book* Person::searchBook(string name)
 {
-	if (Book::bookList.find(name) != Book::bookList.end())
+	if (Library::booksList.find(name) != Library::booksList.end())
 	{
-		return Book::bookList.at(name);
+		return Library::booksList.at(name);
 	}
 	return nullptr;
+}
+
+bool Person::compareDates(const Date& currentDate, const Date& returnDate)
+{
+	return currentDate.year > returnDate.year || (currentDate.year == returnDate.year && currentDate.month > returnDate.month)
+		|| (currentDate.year == returnDate.year && currentDate.month == returnDate.month && currentDate.day > returnDate.day);
 }

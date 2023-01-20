@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="Book.cpp" />
     <ClCompile Include="Customer.cpp" />
+    <ClCompile Include="Date.cpp" />
     <ClCompile Include="Librarian.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Person.cpp" />
@@ -138,10 +139,14 @@
   <ItemGroup>
     <ClInclude Include="Book.h" />
     <ClInclude Include="Customer.h" />
+    <ClInclude Include="Date.h" />
     <ClInclude Include="Librarian.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="PersonsManager.h" />
     <ClInclude Include="Library.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
