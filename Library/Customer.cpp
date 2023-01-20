@@ -89,3 +89,8 @@ bool Customer::choosePaymentMethod(double bill)
         }
     }
 }
+
+void Customer::recieveMessage(const string& message)
+{
+    messages.push_back(message);
+}
