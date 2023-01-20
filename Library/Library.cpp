@@ -244,6 +244,18 @@ int Library::getValidInt()
 	return output;
 }
 
+double Library::getValidDouble()
+{
+	double output{};
+	while (cin.fail()) {
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cout << "Invalid input. Please enter a double: ";
+		cin >> output;
+	}
+	return output;
+}
+
 void Library::loginScreen()
 {
 	system("CLS");

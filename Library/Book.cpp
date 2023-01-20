@@ -6,19 +6,22 @@ Book::Book()
 	cout << "Adding new book" << endl;
 	cout << "=================================================================" << endl;
 	cout << "ID: ";
-	cin >> id;
-	cout << "Name: ";
-	cin >> title;
+	id = Library::getValidInt();
+	do
+	{
+		cout << "Name: ";
+		getline(cin >> ws, title);
+	} while (Library::booksList.find(title) != Library::booksList.end());
 	cout << "Price: ";
-	cin >> price;
+	price = Library::getValidDouble();
 	cout << "Author: ";
-	cin >> author;
+	getline(cin >> ws, author);
 	isAvailable = true;
 	cout << "Category: ";
-	cin >> category;
+	getline(cin >> ws, category);
 	Library::categoryList.insert(category);
 	cout << "Stock: ";
-	cin >> stock;
+	stock = Library::getValidInt();;
 }
 
 Book::Book(int _id, string _title, string _author, int _publicationYear, double _price, int _stock, string _category)

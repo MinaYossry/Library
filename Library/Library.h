@@ -159,6 +159,7 @@ public:
 	static vector<borrowedBook*> borrowedBookList;
 	static unordered_set<string> categoryList;
 	static int getValidInt();
+	static double getValidDouble();
 	//vector<Customer*> CustomerList;
 
 };
