@@ -17,6 +17,9 @@ void Librarian::DeleteBook(string bookName) {
 	{
 		Library::booksList.erase(bookName);
 	}
+	else {
+		cout << "Book doesn't exist" << endl;
+	}
 };
 
 
@@ -26,14 +29,24 @@ void Librarian::UpdateBook(string bookName, int newStock) {
 	{
 		Person::searchBook(bookName)->setStock(newStock);
 	}
+	else
+	{
+		cout << "Book doesn't exist" << endl;
+	}
 }
 
 void Librarian::lendBook(string bookName, const tm& _returnDate, Customer* obj) {
 
 	Book* b1 = searchBook(bookName);
-	borrowedBook* b2 = new borrowedBook(b1, _returnDate, obj);
+	if (b1 && obj)
+	{
+		borrowedBook* b2 = new borrowedBook(b1, _returnDate, obj);
+		Library::borrowedBookList.push_back(b2);
+	}
+	else {
+		cout << "Book doesn't exist" << endl;
+	}
 
-	Library::borrowedBookList.push_back(b2);
 };
 
 /////lets consider that we have customer list or vector whatever
@@ -73,7 +86,10 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
 		cout << "Borrowed Book List :\n" << "---------------\n";
 		for (int i = 0; i < Library::borrowedBookList.size(); i++)
 		{
-			cout << i + i << ") " << Library::borrowedBookList.at(i)->book->getTitle();
+			auto borrowedBook = Library::borrowedBookList.at(i);
+			tm date = borrowedBook->returnDate;
+			string returnDate = to_string(date.tm_mday)+"/"+ to_string(date.tm_mon)+"/"+ to_string(date.tm_year);
+			cout << i + 1 << ") " << borrowedBook->book->getTitle() << " || return date " << returnDate << " || Customer " << borrowedBook->customer->getName() << endl;
 		}
 		break;
 	case 2: // total number & list of all books in the library 
@@ -118,7 +134,11 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
 		for (int i = 0; i < Library::borrowedBookList.size(); i++)
 		{
 			if (compareDates(currectDate, Library::borrowedBookList.at(i)->returnDate)) {
-				cout << counter + 1 << ") " << Library::borrowedBookList.at(i)->book->getTitle() << endl;
+				auto borrowedBook = Library::borrowedBookList.at(i);
+				tm date = borrowedBook->returnDate;
+				string returnDate = to_string(date.tm_mday) + "/" + to_string(date.tm_mon) + "/" + to_string(date.tm_year);
+				cout << counter + 1 << ") " << borrowedBook->book->getTitle() << " || return date " << returnDate << " || Customer " << borrowedBook->customer->getName() << endl;
+
 				counter++;
 			}
 		}

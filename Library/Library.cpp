@@ -95,12 +95,16 @@ void Library::customerOptionsHdlr(int choice)
 		title = enterBookName();
 		book = activeCustomer->searchBook(title);
 		if (book != nullptr) activeCustomer->buyBook(book);
+		else cout << "Book not found" << endl;
+		continueProgram();
 		break;
 	case 2:
 		cout << "Borrow A Book: " << endl;
 		title = enterBookName();
 		book = activeCustomer->searchBook(title);
 		if (book != nullptr) activeCustomer->borrowBook(book);
+		else cout << "Book not found" << endl;
+		continueProgram();
 		break;
 	case 3:
 		cout << "Search For A Book: " << endl;
@@ -108,16 +112,20 @@ void Library::customerOptionsHdlr(int choice)
 		book = activeCustomer->searchBook(title);
 		if (book != nullptr) book->displayInfo();
 		else cout << "Book not found" << endl;
+		continueProgram();
 		break;
 	case 4:
 		cout << "Return A Book: " << endl;
 		title = enterBookName();
 		book = activeCustomer->searchBook(title);
 		if (book != nullptr) activeCustomer->returnBook(book);
+		else cout << "Book not found" << endl;
+		continueProgram();
 		break;
 	case 5:
 	default:
 		currentUser = typNone;
+		activeCustomer = nullptr; activeLibrarian = nullptr; activeUser = nullptr;
 		getChoice(personTypeScreen);
 		break;
 	}
@@ -137,18 +145,21 @@ void Library::librarianOptionsHdlr(int choice)
 	case 1:
 		book = new Book();
 		activeLibrarian->AddBook(book);
+		continueProgram();
 		break;
 	case 2:
 		cout << "Delete a book" << endl;
 		bookName = enterBookName();
 		activeLibrarian->DeleteBook(bookName);
+		continueProgram();
 		break;
 	case 3:
 		cout << "Update Book Stock" << endl;
 		bookName = enterBookName();
-		cout << "Enter stock to be added to the currect stock";
+		cout << "Enter stock to be added to the currect stock: ";
 		newStock = Library::getValidInt();
 		activeLibrarian->UpdateBook(bookName, newStock);
+		continueProgram();
 		break;
 	case 4:
 		cout << "Lend a book to customer" << endl;
@@ -158,9 +169,11 @@ void Library::librarianOptionsHdlr(int choice)
 			id = Library::getValidInt();
 		} while (customers.persons.find(id) == customers.persons.end());
 		activeLibrarian->lendBook(bookName, getDate(), static_cast<Customer*>(customers.persons.at(id)));
+		continueProgram();
 		break;
 	case 5:
 
+		continueProgram();
 		break;
 	case 6:
 		cout << "Add new payment method" << endl;
@@ -170,14 +183,16 @@ void Library::librarianOptionsHdlr(int choice)
 			getline(cin >> ws, payment);
 		} while (find(paymentMethods.begin(), paymentMethods.end(), payment) != paymentMethods.end());
 		activeLibrarian->AddPaymentMethod(payment);
+		continueProgram();
 		break;
 	case 7:
 		getChoice(reports);
+		continueProgram();
 		break;
 	case 8:
-
 	default:
 		currentUser = typNone;
+		activeCustomer = nullptr; activeLibrarian = nullptr; activeUser = nullptr;
 		getChoice(personTypeScreen);
 		break;
 	}
@@ -210,10 +225,22 @@ void Library::reportScreenHdlr(int choice)
 	}
 }
 
+void Library::continueProgram()
+{
+	cout << "\nContinue....." << endl;
+	_getch();
+	if (currentUser == typCustomer)
+		getChoice(customerOptions);
+	else if (currentUser == typLibrarian)
+		getChoice(librarianOptions);
+	else
+		exit(1); //error
+}
+
 tm Library::getDate()
 {
 	tm date;
-	cout << "Enter return date: " << endl;
+	cout << "Enter date: " << endl;
 	do {
 		cout << "Day: ";
 		date.tm_mday = Library::getValidInt();
@@ -227,7 +254,7 @@ tm Library::getDate()
 
 		cout << "Year: ";
 		date.tm_year = Library::getValidInt();
-	} while (date.tm_year < 2000 || date.tm_year > 2022);
+	} while (date.tm_year < 2000 || date.tm_year > 2025);
 	return date;
 }
 
@@ -247,6 +274,7 @@ int Library::getValidInt()
 double Library::getValidDouble()
 {
 	double output{};
+	cin >> output;
 	while (cin.fail()) {
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');

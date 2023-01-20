@@ -73,15 +73,19 @@ bool Customer::choosePaymentMethod(double bill)
         cout << "Choice: ";
         choice = Library::getValidInt();
     } while (choice < 1 || choice > Library::paymentMethods.size() + 1);
-
-    cout << "You chose: " << Library::paymentMethods.at(choice - 1) << endl;
-    cout << "Checking balance .... " << endl;
-    if (accountBalance >= bill) {
-        cout << "Congratulation" << endl;
-        return true;
+    if (choice - 1 >= Library::paymentMethods.size()) {
+        return false;
     }
     else {
-        cout << "Not Enough balance" << endl;
-        return false;
+        cout << "You chose: " << Library::paymentMethods.at(choice - 1) << endl;
+        cout << "Checking balance .... " << endl;
+        if (accountBalance >= bill) {
+            cout << "Congratulation" << endl;
+            return true;
+        }
+        else {
+            cout << "Not Enough balance" << endl;
+            return false;
+        }
     }
 }

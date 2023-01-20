@@ -149,6 +149,7 @@ public:
 	void customerOptionsHdlr(int choice);
 	void librarianOptionsHdlr(int choice);
 	void reportScreenHdlr(int choice);
+	void continueProgram();
 
 	static tm getDate();
 
@@ -160,6 +161,8 @@ public:
 	static unordered_set<string> categoryList;
 	static int getValidInt();
 	static double getValidDouble();
+	static void printDate();
+
 	//vector<Customer*> CustomerList;
 
 };
