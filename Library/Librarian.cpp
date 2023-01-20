@@ -74,12 +74,12 @@ void Librarian::AddPaymentMethod(string paymentMethodName) {
 
 void Librarian::generateReport(int choice, const unordered_map<int, Person*>& customers, const tm& currectDate, const string& author) {
 
+	system("CLS");
 	int counter;
 	int categoryCounter = 1;
 	switch (choice)
 	{
 	case 1:// i have to get the borrowed books list and number of borrowed books
-		system("CLS");
 		cout << "Number and list of borrowed books" << endl;
 		cout << "=================================" << endl;
 		cout << "Number of borrowed books is : " << Library::borrowedBookList.size() << endl;
@@ -94,7 +94,6 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
 		break;
 	case 2: // total number & list of all books in the library 
 		// make sure this array works correctly 
-		system("CLS");
 		cout << "Number and list of all books in the library" << endl;
 		cout << "=================================" << endl;
 		cout << "Number of  books is : " << Library::booksList.size() << endl;
