@@ -38,7 +38,7 @@ void Librarian::UpdateBook(string bookName, int newStock,const unordered_map<str
 void Librarian::lendBook(string bookName, const Date& _returnDate, Customer* obj, const unordered_map<string, Book*>& booksList) {
 
 	Book* b1 = searchBook(bookName, booksList);
-	if (b1 && obj)
+	if (b1 && obj && b1->getIsAvailable())
 	{
 		b1->setStock(-1);
 		borrowedBook* b2 = new borrowedBook(b1, _returnDate, obj);

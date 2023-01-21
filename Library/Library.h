@@ -71,7 +71,7 @@ private:
 		"Delete book",
 		"Update a book",
 		"Lend a book",
-		"Request Borrow0ed Book",
+		"Request Borrowed Book",
 		"Search for a book",
 		"Add Payment method",
 		"Generate Reports",

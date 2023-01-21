@@ -204,11 +204,12 @@ void Library::addPaymentMethodHdlr() {
 	cout << "Add new payment method" << endl;
 	cout << "===============================================" << endl;
 	string payment;
-	do {
-		cout << "Enter new payment method: ";
-		getline(cin >> ws, payment);
-	} while (!validatePaymentMethodExists(payment));
-	activeLibrarian->AddPaymentMethod(payment, this->paymentMethods);
+	cout << "Enter new payment method: ";
+	getline(cin >> ws, payment);
+	if (validatePaymentMethodExists(payment)) {
+		activeLibrarian->AddPaymentMethod(payment, this->paymentMethods);
+		cout << "New payment method added" << endl;
+	}
 }
 
 void Library::generateReportHdlr() {
