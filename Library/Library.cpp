@@ -191,6 +191,7 @@ void Library::librarianOptionsHdlr(int choice)
 		break;
 	case 6:
 		cout << "Search For A Book: " << endl;
+		displayBookList();
 		title = enterBookName();
 		book = activeLibrarian->searchBook(title);
 		if (book != nullptr) book->displayInfo();
