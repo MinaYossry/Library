@@ -193,10 +193,3 @@ void Librarian::generateBooksByAuthorReport(const string& author) {
         cout << "No books found for the specific author." << endl;
     }
 }
-
-
-/// some notes on the side
-// 1- we need to create the borrowed list as static pulic on the library
-// 2- we need to create category list or enum or whatever
-// 3- for missed book we need to check current date and compare it to the lendDate now we can count that book as missed from
-// the library

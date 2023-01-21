@@ -40,6 +40,22 @@ bool Date::operator>(const Date& other) const
     return false;
 }
 
+bool Date::operator<(const Date& other) const
+{
+    if (year < other.year) {
+        return true;
+    }
+    else if (year == other.year) {
+        if (month < other.month) {
+            return true;
+        }
+        else if (month == other.month) {
+            return day < other.day;
+        }
+    }
+    return false;
+}
+
 std::ostream& operator<<(std::ostream& out, const Date& date)
 {
 	out << date.day << "/" << date.month << "/" << date.year;

@@ -11,5 +11,7 @@ struct Date {
 
 	bool operator > (const Date& other) const;
 
+	bool operator < (const Date& other) const;
+
 	friend std::ostream& operator<<(std::ostream& out, const Date& date);
 };
