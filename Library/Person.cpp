@@ -30,8 +30,8 @@ Book* Person::searchBook(string name)
 	return nullptr;
 }
 
-bool Person::compareDates(const Date& currentDate, const Date& returnDate)
-{
-	return currentDate.year > returnDate.year || (currentDate.year == returnDate.year && currentDate.month > returnDate.month)
-		|| (currentDate.year == returnDate.year && currentDate.month == returnDate.month && currentDate.day > returnDate.day);
-}
+//bool Person::compareDates(const Date& currentDate, const Date& returnDate)
+//{
+//	return currentDate.year > returnDate.year || (currentDate.year == returnDate.year && currentDate.month > returnDate.month)
+//		|| (currentDate.year == returnDate.year && currentDate.month == returnDate.month && currentDate.day > returnDate.day);
+//}

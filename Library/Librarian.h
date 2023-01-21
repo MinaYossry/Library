@@ -34,7 +34,7 @@ public:
 
 	// you can just cout each report based on the choice from 1-6
 	//iam jsut sending this list
-	void generateReport(int choice, const unordered_map<int, Person*>& customers, const Date& currectDate, const string& author = "");
+	void generateReport(int choice, const unordered_map<int, Person*>& customers, const string& author = "");
 
 	void generateBorrowedBooksReport();
 

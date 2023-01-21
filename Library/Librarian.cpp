@@ -54,7 +54,7 @@ void Librarian::requestBorrowedBook(const Date &currentDate) {
 	cout << endl;
 	for (auto borrowedBook : Library::borrowedBookList)
 	{
-		if (compareDates(currentDate, borrowedBook->returnDate)) {
+		if (currentDate > borrowedBook->returnDate) {
 			cout << "Book Title: " << borrowedBook->book->getTitle() << " || " << "Customer: " << borrowedBook->customer->getName();
 			borrowedBook->customer->recieveMessage("Please return book ( " + borrowedBook->book->getTitle() + " ) becaused it passed its return date");
 		}
@@ -68,7 +68,7 @@ void Librarian::AddPaymentMethod(string paymentMethodName) {
 };
 
 
-void Librarian::generateReport(int choice, const unordered_map<int, Person*>& customers, const Date& currectDate, const string& author) {
+void Librarian::generateReport(int choice, const unordered_map<int, Person*>& customers, const string& author) {
     system("CLS");
     switch (choice) {
     case 1: {
@@ -84,7 +84,7 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
         break;
     }
     case 4: {
-        generateMissedBooksReport(currectDate);
+        generateMissedBooksReport(Date());
         break;
     }
     case 5: {
@@ -173,7 +173,7 @@ void Librarian::generateMissedBooksReport(const Date& currectDate) {
     cout << "Total number & list of all missed books from the library based on date" << endl;
     cout << "=================================" << endl;
     for (auto& borrowedBook : Library::borrowedBookList) {
-        if (compareDates(currectDate, borrowedBook->returnDate)) {
+        if (currectDate > borrowedBook->returnDate) {
             Date date = borrowedBook->returnDate;
             string returnDate = to_string(date.day) + "/" + to_string(date.month) + "/" + to_string(date.year);
             cout << ++counter << ") " << borrowedBook->book->getTitle() << " || return date " << returnDate << " || Customer " << borrowedBook->customer->getName() << endl;

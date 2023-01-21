@@ -23,7 +23,7 @@ void Customer::borrowBook(Book* book)
     if (book->getIsAvailable()) {
         if (choosePaymentMethod(book->getPrice() * 0.15))
         {
-            Library::borrowedBookList.push_back(new borrowedBook(book, Library::getDate(), this));
+            Library::borrowedBookList.push_back(new borrowedBook(book, Date(), this));
             book->setStock(-1);
         }
     }
@@ -48,7 +48,7 @@ void Customer::returnBook(Book* book)
     }
 
     if (found) {
-        if (compareDates(target->returnDate, Library::getDate()))
+        if (Date() > target->returnDate)
             choosePaymentMethod(target->book->getPrice() * 0.15);
 
         book->setStock(1);
