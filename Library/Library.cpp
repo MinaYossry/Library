@@ -83,55 +83,57 @@ void Library::loginOrRegisterHdlr(int choice)
 	}
 }
 
-void Library::customerOptionsHdlr(int choice)
-{
-	string title;
-	Book* book;
-	system("CLS");
-	switch (choice)
-	{
-	case 1:
-		cout << "Buy A Book: " << endl;
-		displayBookList();
-		title = enterBookName();
-		book = activeCustomer->searchBook(title);
-		if (book != nullptr) activeCustomer->buyBook(book);
-		else cout << "Book not found" << endl;
-		continueProgram();
-		break;
-	case 2:
-		cout << "Borrow A Book: " << endl;
-		displayBookList();
-		title = enterBookName();
-		book = activeCustomer->searchBook(title);
-		if (book != nullptr) activeCustomer->borrowBook(book);
-		else cout << "Book not found" << endl;
-		continueProgram();
-		break;
-	case 3:
-		cout << "Search For A Book: " << endl;
-		displayBookList();
-		title = enterBookName();
-		book = activeCustomer->searchBook(title);
-		if (book != nullptr) book->displayInfo();
-		else cout << "Book not found" << endl;
-		continueProgram();
-		break;
-	case 4:
-		cout << "Return A Book: " << endl;
-		if (activeCustomer->displayBorrowedBooks())
-		{
-			title = enterBookName();
-			book = activeCustomer->searchBook(title);
-			if (book != nullptr) activeCustomer->returnBook(book);
-			else cout << "Book not found" << endl;
+
+void Library::buyBookHdlr() {
+	cout << "Buy A Book: " << endl;
+	displayBookList();
+	string title = enterBookName();
+	if (validateBookExists(title)) {
+		activeCustomer->buyBook(activeCustomer->searchBook(title));
+	}
+}
+
+void Library::borrowBookHdlr() {
+	cout << "Borrow A Book: " << endl;
+	displayBookList();
+	string title = enterBookName();
+	if (validateBookExists(title)) {
+		activeCustomer->borrowBook(activeCustomer->searchBook(title));
+	}
+}
+
+void Library::searchForBookHdlrC() {
+	cout << "Search For A Book: " << endl;
+	displayBookList();
+	string title = enterBookName();
+	Book* book = activeCustomer->searchBook(title);
+	if (validateBookExists(title)) {
+		book->displayInfo();
+	}
+}
+
+void Library::returnBookHdlr() {
+	cout << "Return A Book: " << endl;
+	if (activeCustomer->displayBorrowedBooks()) {
+		string title = enterBookName();
+		if (validateBookExists(title)) {
+			activeCustomer->returnBook(activeCustomer->searchBook(title));
 		}
-		continueProgram();
-		break;
-	case 5:
-		activeCustomer->displayMessage();
-		continueProgram();
-		break;
+	}
+}
+
+void Library::displayMessageHdlr() {
+	activeCustomer->displayMessage();
+}
+
+void Library::customerOptionsHdlr(int choice) {
+	system("CLS");
+	switch (choice) {
+	case 1: buyBookHdlr(); break;
+	case 2: borrowBookHdlr(); break;
+	case 3: searchForBookHdlr(); break;
+	case 4: returnBookHdlr(); break;
+	case 5: displayMessageHdlr(); break;
 	case 6:
 	default:
 		currentUser = typNone;
@@ -139,7 +141,67 @@ void Library::customerOptionsHdlr(int choice)
 		getChoice(personTypeScreen);
 		break;
 	}
+	continueProgram();
 }
+
+
+//void Library::customerOptionsHdlr(int choice)
+//{
+//	string title;
+//	Book* book;
+//	system("CLS");
+//	switch (choice)
+//	{
+//	case 1:
+//		cout << "Buy A Book: " << endl;
+//		displayBookList();
+//		title = enterBookName();
+//		book = activeCustomer->searchBook(title);
+//		if (book != nullptr) activeCustomer->buyBook(book);
+//		else cout << "Book not found" << endl;
+//		continueProgram();
+//		break;
+//	case 2:
+//		cout << "Borrow A Book: " << endl;
+//		displayBookList();
+//		title = enterBookName();
+//		book = activeCustomer->searchBook(title);
+//		if (book != nullptr) activeCustomer->borrowBook(book);
+//		else cout << "Book not found" << endl;
+//		continueProgram();
+//		break;
+//	case 3:
+//		cout << "Search For A Book: " << endl;
+//		displayBookList();
+//		title = enterBookName();
+//		book = activeCustomer->searchBook(title);
+//		if (book != nullptr) book->displayInfo();
+//		else cout << "Book not found" << endl;
+//		continueProgram();
+//		break;
+//	case 4:
+//		cout << "Return A Book: " << endl;
+//		if (activeCustomer->displayBorrowedBooks())
+//		{
+//			title = enterBookName();
+//			book = activeCustomer->searchBook(title);
+//			if (book != nullptr) activeCustomer->returnBook(book);
+//			else cout << "Book not found" << endl;
+//		}
+//		continueProgram();
+//		break;
+//	case 5:
+//		activeCustomer->displayMessage();
+//		continueProgram();
+//		break;
+//	case 6:
+//	default:
+//		currentUser = typNone;
+//		activeCustomer = nullptr; activeLibrarian = nullptr; activeUser = nullptr;
+//		getChoice(personTypeScreen);
+//		break;
+//	}
+//}
 
 void Library::addBookHdlr() {
 	Book* book = new Book();
@@ -259,7 +321,7 @@ void Library::reportScreenHdlr(int choice)
 void Library::continueProgram()
 {
 	cout << "Press any key to continue" << endl;
-    cin.get();
+    _getch();
 	if (currentUser == typCustomer)
 		getChoice(customerOptions);
 	else if (currentUser == typLibrarian)
@@ -329,7 +391,7 @@ void Library::loginScreen()
 	else
 	{
 		cout << "Sorry, user doesn't exist" << endl;
-		cin.get();
+		_getch();
 		getChoice(personTypeScreen);
 	}
 }
@@ -368,7 +430,7 @@ void Library::registerScreen()
 		loginScreen();
 	else {
 		cout << "Sorry user already exists" << endl;
-		cin.get();
+		_getch();
 		getChoice(personTypeScreen);
 	}
 }

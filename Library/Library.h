@@ -121,7 +121,10 @@ public:
 	void loginScreen();
 	void registerScreen();
 	void displayBookList();
+
+
 	string enterBookName();
+
 	bool validateBookExists(const std::string& bookName);
 	bool validateCustomerExists(int id);
 	bool validatePaymentMethodExists(const std::string& payment);
@@ -165,6 +168,11 @@ public:
 	void generateReportHdlr();
 	void librarianOptionsHdlr(int choice);
 	void reportScreenHdlr(int choice);
+	void buyBookHdlr();
+	void borrowBookHdlr();
+	void searchForBookHdlrC();
+	void returnBookHdlr();
+	void displayMessageHdlr();
 	void continueProgram();
 
 

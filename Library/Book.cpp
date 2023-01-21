@@ -17,7 +17,7 @@ Book::Book()
 	cout << "Author: ";
 	getline(cin >> ws, author);
 	cout << "Publication Year: ";
-	publicationYear = Library::getValidDouble();
+	publicationYear = Library::getValidInt();
 	isAvailable = true;
 	cout << "Category: ";
 	getline(cin >> ws, category);
