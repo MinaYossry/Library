@@ -1,6 +1,8 @@
-#pragma once
-#include <vector>
+#ifndef BOOK_H
+#define BOOK_H
 
+#include <vector>
+#include <unordered_set>
 
 #include <string>
 #include <iostream>
@@ -8,6 +10,9 @@
 #include<unordered_map>
 
 using namespace std;
+
+
+
 class Book
 {
 private:
@@ -23,8 +28,8 @@ private:
     double price;
 
 public:
-	Book();
-    Book(int _id, string _title, string _author, int _publicationYear, double _price, int _stock, string _category);
+	Book(const unordered_map<string, Book*>& booksList, unordered_set<string>& categoryList);
+    Book(int _id, string _title, string _author, int _publicationYear, double _price, int _stock, string _category, unordered_set<string>& categoryList);
 
     int getId() const;
     string getTitle() const;
@@ -38,3 +43,5 @@ public:
     int getStock() const;
     void displayInfo() const;
 };
+
+#endif

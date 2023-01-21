@@ -1,9 +1,12 @@
-#pragma once
+#ifndef CUSTOMER_H
+#define CUSTOMER_H
 #include "Person.h"
 #include "Book.h"
 #include <vector>
 #include <iostream>
 #include <string>
+
+
 
 class Customer : public Person
 {
@@ -12,11 +15,15 @@ private:
     vector<string> messages;
 public:
     Customer(int ID, string name, int password);
-    void buyBook(Book* book);
-    void borrowBook(Book* book);
-    void returnBook(Book* book);
-    bool choosePaymentMethod(double bill);
+    void buyBook(Book* book, const vector<string>& paymentMethods);
+    void borrowBook(Book* book, const vector<string>& paymentMethods);
+    void returnBook(Book* book, const vector<string>& paymentMethods);
+    bool choosePaymentMethod(double bill, const vector<string>& paymentMethods);
     void recieveMessage(const string& message);
     void displayMessage();
     bool displayBorrowedBooks();
 };
+
+
+
+#endif

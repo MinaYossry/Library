@@ -5,17 +5,17 @@ Librarian::Librarian(int _ID, string _name, int _password)
 	: Person(_ID, _name, _password) { }
 
 ///
-void Librarian::AddBook(Book* object) {
+void Librarian::AddBook(Book* object, unordered_map<string, Book*>& booksList) {
 
-	Library::booksList.insert_or_assign(object->getTitle(), object);
+    booksList.insert_or_assign(object->getTitle(), object);
 
 };
 // free memory after deletetion don't forget
-void Librarian::DeleteBook(string bookName) {
+void Librarian::DeleteBook(string bookName, unordered_map<string, Book*>& booksList) {
 
-	if (Library::booksList.find(bookName) != Library::booksList.end())
+	if (booksList.find(bookName) != booksList.end())
 	{
-		Library::booksList.erase(bookName);
+		booksList.erase(bookName);
 	}
 	else {
 		cout << "Book doesn't exist" << endl;
@@ -23,11 +23,11 @@ void Librarian::DeleteBook(string bookName) {
 };
 
 
-void Librarian::UpdateBook(string bookName, int newStock) {
+void Librarian::UpdateBook(string bookName, int newStock,const unordered_map<string, Book*>& booksList) {
 
-	if (Library::booksList.find(bookName) != Library::booksList.end())
+	if (booksList.find(bookName) != booksList.end())
 	{
-		Person::searchBook(bookName)->setStock(newStock);
+		Person::searchBook(bookName, booksList)->setStock(newStock);
 	}
 	else
 	{
@@ -35,9 +35,9 @@ void Librarian::UpdateBook(string bookName, int newStock) {
 	}
 }
 
-void Librarian::lendBook(string bookName, const Date& _returnDate, Customer* obj) {
+void Librarian::lendBook(string bookName, const Date& _returnDate, Customer* obj, const unordered_map<string, Book*>& booksList) {
 
-	Book* b1 = searchBook(bookName);
+	Book* b1 = searchBook(bookName, booksList);
 	if (b1 && obj)
 	{
 		b1->setStock(-1);
@@ -62,13 +62,13 @@ void Librarian::requestBorrowedBook(const Date &currentDate) {
 	cout << endl << "Messages is sent to customers" << endl;
 }
 
-void Librarian::AddPaymentMethod(string paymentMethodName) {
+void Librarian::AddPaymentMethod(string paymentMethodName, vector<string> &paymentMethods) {
 
-	Library::paymentMethods.push_back(paymentMethodName);
+    paymentMethods.push_back(paymentMethodName);
 };
 
 
-void Librarian::generateReport(int choice, const unordered_map<int, Person*>& customers, const string& author) {
+void Librarian::generateReport(int choice, const unordered_map<int, Person*>& customers, const string& author, const unordered_map<string, Book*>& booksList, const unordered_set<string>& categoryList) {
     system("CLS");
     switch (choice) {
         case 1: {
@@ -76,11 +76,11 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
             break;
         }
         case 2: {
-            generateAllBooksReport();
+            generateAllBooksReport(booksList);
             break;
         }
         case 3: {
-            generateBooksByCategoryReport();
+            generateBooksByCategoryReport(booksList, categoryList);
             break;
         }
         case 4: {
@@ -88,7 +88,7 @@ void Librarian::generateReport(int choice, const unordered_map<int, Person*>& cu
             break;
         }
         case 5: {
-            generateBooksByAuthorReport(author);
+            generateBooksByAuthorReport(author, booksList);
             break;
         }
         case 6: {
@@ -132,32 +132,32 @@ void Librarian::generateBorrowedBooksReport() {
 }
 
 
-void Librarian::generateAllBooksReport() {
+void Librarian::generateAllBooksReport(const unordered_map<string, Book*>& booksList) {
     cout << "Number and list of all books in the library" << endl;
     cout << "=================================" << endl;
 
-    if (Library::booksList.size() == 0) {
+    if (booksList.size() == 0) {
         cout << "No books found in the library." << endl;
     }
     else {
-        cout << "Number of  books is : " << Library::booksList.size() << endl;
+        cout << "Number of  books is : " << booksList.size() << endl;
         cout << "Books List :\n" << "---------------\n";
 
-        for (auto& it : Library::booksList) {
+        for (auto& it : booksList) {
             cout << it.first << " || Stock: " << it.second->getStock() << endl;
         }
     }
 }
 
-void Librarian::generateBooksByCategoryReport() {
+void Librarian::generateBooksByCategoryReport(const unordered_map<string, Book*>& booksList, const unordered_set<string> & categoryList) {
     int categoryCounter = 1;
     int counter = 0;
     bool found = false;
-    for (const auto& category : Library::categoryList) {
+    for (const auto& category : categoryList) {
         cout << categoryCounter << ") " << category << endl;
         counter = 0;
 
-        for (auto& it : Library::booksList) {
+        for (auto& it : booksList) {
             if (it.second->getCategory() == category) {
                 counter++;
                 found = true;
@@ -170,7 +170,7 @@ void Librarian::generateBooksByCategoryReport() {
         else {
             cout << "number of books in this Category is :" << counter << endl;
             cout << "===============================" << endl;
-            for (auto& it : Library::booksList) {
+            for (auto& it : booksList) {
                 if (it.second->getCategory() == category) {
                     cout << it.first << endl;
                 }
@@ -199,11 +199,11 @@ void Librarian::generateMissedBooksReport(const Date& currectDate) {
     }
 }
 
-void Librarian::generateBooksByAuthorReport(const string& author) {
+void Librarian::generateBooksByAuthorReport(const string& author, const unordered_map<string, Book*>& booksList) {
     int counter = 0;
     cout << "Total number & list of books for specific author" << endl;
     cout << "=================================" << endl;
-    for (auto& it : Library::booksList) {
+    for (auto& it : booksList) {
         if (it.second->getAuthor() == author) {
             cout << ++counter << ") " << it.first << endl;
         }

@@ -1,30 +1,19 @@
 #include "Customer.h"
 #include "Library.h"
+#include "BorrowedBook.h"
 
 Customer::Customer(int ID, string name, int password) : Person( ID,name, password) {
     accountBalance = 500;
 }
 
-void Customer::buyBook(Book* book)
+void Customer::buyBook(Book* book, const vector<string>& paymentMethods)
 {
     // code to buy a book
     if (book->getIsAvailable()) {
-        if (choosePaymentMethod(book->getPrice()))
+        if (choosePaymentMethod(book->getPrice(), paymentMethods))
             book->setStock(-1);
-    }
-    else {
-        cout << "Book is not available" << endl;
-    }
-}
-
-void Customer::borrowBook(Book* book)
-{
-    // code to borrow a book
-    if (book->getIsAvailable()) {
-        if (choosePaymentMethod(book->getPrice() * 0.15))
-        {
-            Library::borrowedBookList.push_back(new borrowedBook(book, Date(), this));
-            book->setStock(-1);
+        else {
+            cout << "Insuffecient fund" << endl;
         }
     }
     else {
@@ -32,7 +21,25 @@ void Customer::borrowBook(Book* book)
     }
 }
 
-void Customer::returnBook(Book* book)
+void Customer::borrowBook(Book* book, const vector<string>& paymentMethods)
+{
+    // code to borrow a book
+    if (book->getIsAvailable()) {
+        if (choosePaymentMethod(book->getPrice() * 0.15, paymentMethods))
+        {
+            Library::borrowedBookList.push_back(new borrowedBook(book, Date(), this));
+            book->setStock(-1);
+        }
+        else {
+            cout << "Insuffecient fund" << endl;
+        }
+    }
+    else {
+        cout << "Book is not available" << endl;
+    }
+}
+
+void Customer::returnBook(Book* book, const vector<string>& paymentMethods)
 {
     // code to return a book
     borrowedBook* target = nullptr;
@@ -49,35 +56,41 @@ void Customer::returnBook(Book* book)
 
     if (found) {
         if (Date() > target->returnDate)
-            choosePaymentMethod(target->book->getPrice() * 0.15);
-
-        book->setStock(1);
-        Library::borrowedBookList.erase(std::remove(Library::borrowedBookList.begin(), Library::borrowedBookList.end(), target), Library::borrowedBookList.end());
+        {
+            if (choosePaymentMethod(target->book->getPrice() * 0.15, paymentMethods))
+            {
+                book->setStock(1);
+                Library::borrowedBookList.erase(std::remove(Library::borrowedBookList.begin(), Library::borrowedBookList.end(), target), Library::borrowedBookList.end());
+            }
+            else {
+                cout << "Insuffecient fund" << endl;
+            }
+        }
     }
 
 }
 
-bool Customer::choosePaymentMethod(double bill)
+bool Customer::choosePaymentMethod(double bill, const vector<string> &paymentMethods)
 {
     system("CLS");
     cout << "=====================================" << endl;
-    for (size_t i = 0; i < Library::paymentMethods.size(); i++)
+    for (size_t i = 0; i < paymentMethods.size(); i++)
     {
-        cout << i + 1 << "- " << Library::paymentMethods.at(i) << endl;
+        cout << i + 1 << "- " << paymentMethods.at(i) << endl;
     }
-    cout << Library::paymentMethods.size() + 1 << "- exit" << endl;
+    cout << paymentMethods.size() + 1 << "- exit" << endl;
     cout << "=====================================" << endl;
 
     int choice{};
     do {
         cout << "Choice: ";
         choice = Library::getValidInt();
-    } while (choice < 1 || choice > Library::paymentMethods.size() + 1);
-    if (choice - 1 >= Library::paymentMethods.size()) {
+    } while (choice < 1 || choice > paymentMethods.size() + 1);
+    if (choice - 1 >= paymentMethods.size()) {
         return false;
     }
     else {
-        cout << "You chose: " << Library::paymentMethods.at(choice - 1) << endl;
+        cout << "You chose: " << paymentMethods.at(choice - 1) << endl;
         cout << "Checking balance .... " << endl;
         if (accountBalance >= bill) {
             cout << "Congratulation" << endl;

@@ -21,11 +21,11 @@ string Person::getName() const
 	return this->name;
 }
 
-Book* Person::searchBook(string name)
+Book* Person::searchBook(string name, const unordered_map<string, Book*>& booksList)
 {
-	if (Library::booksList.find(name) != Library::booksList.end())
+	if (booksList.find(name) != booksList.end())
 	{
-		return Library::booksList.at(name);
+		return booksList.at(name);
 	}
 	return nullptr;
 }

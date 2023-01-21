@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DATE_H
+#define DATE_H
 #include <iostream>
 struct Date {
 	int day;
@@ -15,3 +16,5 @@ struct Date {
 
 	friend std::ostream& operator<<(std::ostream& out, const Date& date);
 };
+
+#endif

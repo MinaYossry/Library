@@ -89,7 +89,7 @@ void Library::buyBookHdlr() {
 	displayBookList();
 	string title = enterBookName();
 	if (validateBookExists(title)) {
-		activeCustomer->buyBook(activeCustomer->searchBook(title));
+		activeCustomer->buyBook(activeCustomer->searchBook(title, this->booksList), this->paymentMethods);
 	}
 }
 
@@ -98,7 +98,7 @@ void Library::borrowBookHdlr() {
 	displayBookList();
 	string title = enterBookName();
 	if (validateBookExists(title)) {
-		activeCustomer->borrowBook(activeCustomer->searchBook(title));
+		activeCustomer->borrowBook(activeCustomer->searchBook(title, this->booksList), this->paymentMethods);
 	}
 }
 
@@ -106,7 +106,7 @@ void Library::searchForBookHdlrC() {
 	cout << "Search For A Book: " << endl;
 	displayBookList();
 	string title = enterBookName();
-	Book* book = activeCustomer->searchBook(title);
+	Book* book = activeCustomer->searchBook(title, this->booksList);
 	if (validateBookExists(title)) {
 		book->displayInfo();
 	}
@@ -117,7 +117,7 @@ void Library::returnBookHdlr() {
 	if (activeCustomer->displayBorrowedBooks()) {
 		string title = enterBookName();
 		if (validateBookExists(title)) {
-			activeCustomer->returnBook(activeCustomer->searchBook(title));
+			activeCustomer->returnBook(activeCustomer->searchBook(title, this->booksList), this->paymentMethods);
 		}
 	}
 	else {
@@ -149,8 +149,8 @@ void Library::customerOptionsHdlr(int choice) {
 
 
 void Library::addBookHdlr() {
-	Book* book = new Book();
-	activeLibrarian->AddBook(book);
+	Book* book = new Book(this->booksList, this->categoryList);
+	activeLibrarian->AddBook(book, this->booksList);
 }
 
 void Library::deleteBookHdlr() {
@@ -158,7 +158,7 @@ void Library::deleteBookHdlr() {
 	displayBookList();
 	string bookName = enterBookName();
 	if (validateBookExists(bookName)) {
-		activeLibrarian->DeleteBook(bookName);
+		activeLibrarian->DeleteBook(bookName, this->booksList);
 	}
 }
 
@@ -169,7 +169,7 @@ void Library::updateBookHdlr() {
 	if (validateBookExists(bookName)) {
 		cout << "Enter stock to be added to the currect stock: ";
 		int newStock = Library::getValidInt();
-		activeLibrarian->UpdateBook(bookName, newStock);
+		activeLibrarian->UpdateBook(bookName, newStock, this->booksList);
 	}
 }
 
@@ -183,7 +183,7 @@ void Library::lendBookHdlr() {
 			cout << "Enter cutomer ID: ";
 			id = Library::getValidInt();
 		} while (customers.persons.find(id) == customers.persons.end());
-		activeLibrarian->lendBook(bookName, Date(), static_cast<Customer*>(customers.persons.at(id)));
+		activeLibrarian->lendBook(bookName, Date(), static_cast<Customer*>(customers.persons.at(id)), this->booksList);
 	}
 }
 
@@ -195,7 +195,7 @@ void Library::searchForBookHdlr() {
 	cout << "Search For A Book: " << endl;
 	displayBookList();
 	string title = enterBookName();
-	Book* book = activeLibrarian->searchBook(title);
+	Book* book = activeLibrarian->searchBook(title, this->booksList);
 	if (book != nullptr) book->displayInfo();
 	else cout << "Book not found" << endl;
 }
@@ -208,7 +208,7 @@ void Library::addPaymentMethodHdlr() {
 		cout << "Enter new payment method: ";
 		getline(cin >> ws, payment);
 	} while (!validatePaymentMethodExists(payment));
-	activeLibrarian->AddPaymentMethod(payment);
+	activeLibrarian->AddPaymentMethod(payment, this->paymentMethods);
 }
 
 void Library::generateReportHdlr() {
@@ -241,20 +241,16 @@ void Library::reportScreenHdlr(int choice)
 	string author;
 	switch (choice)
 	{
-	case 1:
-	case 2:
-	case 3:
-	case 6:
-		activeLibrarian->generateReport(choice, customers.persons);
-		break;
-	case 4:
-		activeLibrarian->generateReport(choice, customers.persons);
-		break;
 	case 5:
 		cout << "Enter Author Name: " << endl;
 		getline(cin >> ws, author);
 		cout << endl;
-		activeLibrarian->generateReport(choice, customers.persons, author);
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+	case 6:
+		activeLibrarian->generateReport(choice, customers.persons, author, this->booksList, this->categoryList);
 		break;
 	case 7:
 	default:
@@ -434,25 +430,5 @@ bool Library::validatePaymentMethodExists(const std::string& payment) {
 }
 
 
-vector<string> Library::paymentMethods = {
-	"Cash",
-	"Debit Card",
-	"Credit Card"
-};
-
-vector<borrowedBook*> Library::borrowedBookList = {  };
-unordered_set<string> Library::categoryList = {  };
-
-unordered_map<string, Book*> Library::booksList{
-	{"Harry Potter and the Philosopher's Stone" ,new Book(1, "Harry Potter and the Philosopher's Stone", "J.K. Rowling", 1997, 12.99, 1000, "Fantasy")},
-	{"To Kill a Mockingbird" ,new Book(2, "To Kill a Mockingbird", "Harper Lee", 1960, 14.99, 800, "Classics")},
-	{"The Catcher in the Rye" ,new Book(3, "The Catcher in the Rye", "J.D. Salinger", 1951, 10.99, 500, "Classics")},
-	{"The Lord of the Rings" ,new Book(4, "The Lord of the Rings", "J.R.R. Tolkien", 1954, 24.99, 1200, "Fantasy")},
-	{"The Great Gatsby" ,new Book(5, "The Great Gatsby", "F. Scott Fitzgerald", 1925, 8.99, 900, "Classics")},
-	{"The Alchemist" ,new Book(6, "The Alchemist", "Paulo Coelho", 1988, 15.99, 800, "Self-Help")},
-	{"The Hobbit" ,new Book(7, "The Hobbit", "J.R.R. Tolkien", 1937, 19.99, 1000, "Fantasy")},
-	{"The Diary of a Young Girl" ,new Book(8, "The Diary of a Young Girl", "Anne Frank", 1947, 9.99, 600, "Non-Fiction")},
-	{"The Da Vinci Code" ,new Book(9, "The Da Vinci Code", "Dan Brown", 2003, 16.99, 1000, "Thriller")},
-	{"1984" ,new Book(10, "1984", "George Orwell", 1949, 12.99, 700, "Classics")},
-};
+vector<borrowedBook*> Library::borrowedBookList = {};
 

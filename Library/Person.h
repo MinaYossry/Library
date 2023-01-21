@@ -1,4 +1,7 @@
-#pragma once
+#ifndef PERSON_H
+#define PERSON_H
+
+
 #include <string>
 #include "Book.h"
 #include "Date.h"
@@ -18,8 +21,10 @@ public:
 	int getPassword() const;
 	int getID() const;
 	string getName() const;
-	Book* searchBook(string name);
+	Book* searchBook(string name, const unordered_map<string, Book*>& booksList);
 
 	//bool compareDates(const Date& currentDate, const Date& returnDate);
 
 };
+
+#endif

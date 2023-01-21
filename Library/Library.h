@@ -1,4 +1,7 @@
-﻿#pragma once
+﻿#ifndef LIBRARY_H
+#define LIBRARY_H
+
+
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
@@ -18,8 +21,6 @@
 #include "Date.h"
 
 using namespace std;
-
-
 
 struct borrowedBook
 {
@@ -88,6 +89,25 @@ private:
 
 public:
 	Library() {
+		booksList = {
+			{"Harry Potter and the Philosopher's Stone" ,new Book(1, "Harry Potter and the Philosopher's Stone", "J.K. Rowling", 1997, 12.99, 1000, "Fantasy", this->categoryList)},
+			{"To Kill a Mockingbird" ,new Book(2, "To Kill a Mockingbird", "Harper Lee", 1960, 14.99, 800, "Classics", this->categoryList)},
+			{"The Catcher in the Rye" ,new Book(3, "The Catcher in the Rye", "J.D. Salinger", 1951, 10.99, 500, "Classics", this->categoryList)},
+			{"The Lord of the Rings" ,new Book(4, "The Lord of the Rings", "J.R.R. Tolkien", 1954, 24.99, 1200, "Fantasy", this->categoryList)},
+			{"The Great Gatsby" ,new Book(5, "The Great Gatsby", "F. Scott Fitzgerald", 1925, 8.99, 900, "Classics", this->categoryList)},
+			{"The Alchemist" ,new Book(6, "The Alchemist", "Paulo Coelho", 1988, 15.99, 800, "Self-Help", this->categoryList)},
+			{"The Hobbit" ,new Book(7, "The Hobbit", "J.R.R. Tolkien", 1937, 19.99, 1000, "Fantasy", this->categoryList)},
+			{"The Diary of a Young Girl" ,new Book(8, "The Diary of a Young Girl", "Anne Frank", 1947, 9.99, 600, "Non-Fiction", this->categoryList)},
+			{"The Da Vinci Code" ,new Book(9, "The Da Vinci Code", "Dan Brown", 2003, 16.99, 1000, "Thriller", this->categoryList)},
+			{"1984" ,new Book(10, "1984", "George Orwell", 1949, 12.99, 700, "Classics", this->categoryList)},
+		};
+
+		paymentMethods = {
+			"Cash",
+			"Debit Card",
+			"Credit Card"
+		};
+
 		customers.persons = {
 			{1,new Customer(1, "John Doe",123)},
 			{2,new Customer(2, "Jane Smith",123)},
@@ -158,13 +178,16 @@ public:
 
 
 	// my added dynamic lists (taha)
-	static vector<string> paymentMethods;
-	static unordered_map<string, Book*> booksList;
+	vector<string> paymentMethods;
+	unordered_map<string, Book*> booksList;
+	unordered_set<string> categoryList;
 	static vector<borrowedBook*> borrowedBookList;
-	static unordered_set<string> categoryList;
+
+
 	static int getValidInt();
 	static double getValidDouble();
 
-	//vector<Customer*> CustomerList;
 
 };
+
+#endif

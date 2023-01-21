@@ -1,7 +1,7 @@
 #include "Book.h"
 #include "Library.h"
 
-Book::Book()
+Book::Book(const unordered_map<string, Book*>& booksList, unordered_set<string> &categoryList)
 {
 	cout << "Adding new book" << endl;
 	cout << "=================================================================" << endl;
@@ -11,7 +11,7 @@ Book::Book()
 	{
 		cout << "Name: ";
 		getline(cin >> ws, title);
-	} while (Library::booksList.find(title) != Library::booksList.end());
+	} while (booksList.find(title) != booksList.end());
 	cout << "Price: ";
 	price = Library::getValidDouble();
 	cout << "Author: ";
@@ -21,12 +21,12 @@ Book::Book()
 	isAvailable = true;
 	cout << "Category: ";
 	getline(cin >> ws, category);
-	Library::categoryList.insert(category);
+	categoryList.insert(category);
 	cout << "Stock: ";
 	stock = Library::getValidInt();;
 }
 
-Book::Book(int _id, string _title, string _author, int _publicationYear, double _price, int _stock, string _category)
+Book::Book(int _id, string _title, string _author, int _publicationYear, double _price, int _stock, string _category, unordered_set<string>& categoryList)
 {
 	id = _id;
 	title = _title;
@@ -36,7 +36,7 @@ Book::Book(int _id, string _title, string _author, int _publicationYear, double 
 	category = _category;
 	stock = _stock;
 	publicationYear = _publicationYear;
-	Library::categoryList.insert(_category);
+	categoryList.insert(_category);
 }
 
 void Book::setStock(int value)

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PERSON_MANAGER_H
+#define PERSON_MANAGER_H
+
 #include <unordered_map>
 #include <vector>
 
@@ -27,3 +29,5 @@ public:
 	Person* login(int _ID, int _password);
 	Person* registeration(int _ID, int _password, const std::string& _name);
 };
+
+#endif
