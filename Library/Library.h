@@ -71,6 +71,7 @@ private:
 		"Update a book",
 		"Lend a book",
 		"Request Borrow0ed Book",
+		"Search for a book",
 		"Add Payment method",
 		"Generate Reports",
 	};
