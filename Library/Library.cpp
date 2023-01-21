@@ -141,77 +141,84 @@ void Library::customerOptionsHdlr(int choice)
 	}
 }
 
-void Library::librarianOptionsHdlr(int choice)
-{
-	system("CLS");
-	string bookName;
-	Book* book;
-	int newStock;
-	int id;
-	string returnDate;
-	string payment;
-	string title;
-	switch (choice)
-	{
-	case 1:
-		book = new Book();
-		activeLibrarian->AddBook(book);
-		continueProgram();
-		break;
-	case 2:
-		cout << "Delete a book" << endl;
-		displayBookList();
-		bookName = enterBookName();
+void Library::addBookHdlr() {
+	Book* book = new Book();
+	activeLibrarian->AddBook(book);
+}
+
+void Library::deleteBookHdlr() {
+	cout << "Delete a book" << endl;
+	displayBookList();
+	string bookName = enterBookName();
+	if (validateBookExists(bookName)) {
 		activeLibrarian->DeleteBook(bookName);
-		continueProgram();
-		break;
-	case 3:
-		cout << "Update Book Stock" << endl;
-		displayBookList();
-		bookName = enterBookName();
+	}
+}
+
+void Library::updateBookHdlr() {
+	cout << "Update Book Stock" << endl;
+	displayBookList();
+	string bookName = enterBookName();
+	if (validateBookExists(bookName)) {
 		cout << "Enter stock to be added to the currect stock: ";
-		newStock = Library::getValidInt();
+		int newStock = Library::getValidInt();
 		activeLibrarian->UpdateBook(bookName, newStock);
-		continueProgram();
-		break;
-	case 4:
-		cout << "Lend a book to customer" << endl;
-		displayBookList();
-		bookName = enterBookName();
+	}
+}
+
+void Library::lendBookHdlr() {
+	cout << "Lend a book to customer" << endl;
+	displayBookList();
+	string bookName = enterBookName();
+	if (validateBookExists(bookName)) {
+		int id;
 		do {
 			cout << "Enter cutomer ID: ";
 			id = Library::getValidInt();
 		} while (customers.persons.find(id) == customers.persons.end());
 		activeLibrarian->lendBook(bookName, Date(), static_cast<Customer*>(customers.persons.at(id)));
-		continueProgram();
-		break;
-	case 5:
-		activeLibrarian->requestBorrowedBook(Date());
-		continueProgram();
-		break;
-	case 6:
-		cout << "Search For A Book: " << endl;
-		displayBookList();
-		title = enterBookName();
-		book = activeLibrarian->searchBook(title);
-		if (book != nullptr) book->displayInfo();
-		else cout << "Book not found" << endl;
-		continueProgram();
-		break;
-	case 7:
-		cout << "Add new payment method" << endl;
-		cout << "===============================================" << endl;
-		do {
-			cout << "Enter new payment method: ";
-			getline(cin >> ws, payment);
-		} while (find(paymentMethods.begin(), paymentMethods.end(), payment) != paymentMethods.end());
-		activeLibrarian->AddPaymentMethod(payment);
-		continueProgram();
-		break;
-	case 8:
-		getChoice(reports);
-		continueProgram();
-		break;
+	}
+}
+
+void Library::requestBorrowedBookHdlr() {
+	activeLibrarian->requestBorrowedBook(Date());
+}
+
+void Library::searchForBookHdlr() {
+	cout << "Search For A Book: " << endl;
+	displayBookList();
+	string title = enterBookName();
+	Book* book = activeLibrarian->searchBook(title);
+	if (book != nullptr) book->displayInfo();
+	else cout << "Book not found" << endl;
+}
+
+void Library::addPaymentMethodHdlr() {
+	cout << "Add new payment method" << endl;
+	cout << "===============================================" << endl;
+	string payment;
+	do {
+		cout << "Enter new payment method: ";
+		getline(cin >> ws, payment);
+	} while (!validatePaymentMethodExists(payment));
+	activeLibrarian->AddPaymentMethod(payment);
+}
+
+void Library::generateReportHdlr() {
+	getChoice(reports);
+}
+
+void Library::librarianOptionsHdlr(int choice) {
+	system("CLS");
+	switch (choice) {
+	case 1: addBookHdlr(); break;
+	case 2: deleteBookHdlr(); break;
+	case 3: updateBookHdlr(); break;
+	case 4: lendBookHdlr(); break;
+	case 5: requestBorrowedBookHdlr(); break;
+	case 6: searchForBookHdlr(); break;
+	case 7: addPaymentMethodHdlr(); break;
+	case 8: generateReportHdlr(); break;
 	case 9:
 	default:
 		currentUser = typNone;
@@ -219,6 +226,7 @@ void Library::librarianOptionsHdlr(int choice)
 		getChoice(personTypeScreen);
 		break;
 	}
+	continueProgram();
 }
 
 void Library::reportScreenHdlr(int choice)
@@ -250,8 +258,8 @@ void Library::reportScreenHdlr(int choice)
 
 void Library::continueProgram()
 {
-	cout << "\nContinue....." << endl;
-	_getch();
+	cout << "Press any key to continue" << endl;
+    cin.get();
 	if (currentUser == typCustomer)
 		getChoice(customerOptions);
 	else if (currentUser == typLibrarian)
@@ -321,7 +329,7 @@ void Library::loginScreen()
 	else
 	{
 		cout << "Sorry, user doesn't exist" << endl;
-		_getch();
+		cin.get();
 		getChoice(personTypeScreen);
 	}
 }
@@ -360,7 +368,7 @@ void Library::registerScreen()
 		loginScreen();
 	else {
 		cout << "Sorry user already exists" << endl;
-		_getch();
+		cin.get();
 		getChoice(personTypeScreen);
 	}
 }
@@ -385,6 +393,37 @@ string Library::enterBookName()
 	getline(cin >> ws, bookName);
 
 	return bookName;
+}
+
+bool Library::validateBookExists(const std::string& bookName) {
+	if (Library::booksList.find(bookName) != Library::booksList.end())
+	{
+		return true;
+	}
+	else {
+		cout << "Book doesn't exist" << endl;
+		return false;
+	}
+}
+
+bool Library::validateCustomerExists(int id) {
+	if (customers.persons.find(id) != customers.persons.end()) {
+		return true;
+	}
+	else {
+		cout << "Customer doesn't exist" << endl;
+		return false;
+	}
+}
+
+bool Library::validatePaymentMethodExists(const std::string& payment) {
+	if (std::find(paymentMethods.begin(), paymentMethods.end(), payment) != paymentMethods.end()) {
+		cout << "Payment method already exists" << endl;
+		return false;
+	}
+	else {
+		return true;
+	}
 }
 
 

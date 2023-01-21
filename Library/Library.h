@@ -122,6 +122,9 @@ public:
 	void registerScreen();
 	void displayBookList();
 	string enterBookName();
+	bool validateBookExists(const std::string& bookName);
+	bool validateCustomerExists(int id);
+	bool validatePaymentMethodExists(const std::string& payment);
 	void getChoice(const vector<string>& screen);
 	void openLibrary();
 
@@ -152,6 +155,14 @@ public:
 	void personTypeScreenHdlr(int choice);
 	void loginOrRegisterHdlr(int choice);
 	void customerOptionsHdlr(int choice);
+	void addBookHdlr();
+	void deleteBookHdlr();
+	void updateBookHdlr();
+	void lendBookHdlr();
+	void requestBorrowedBookHdlr();
+	void searchForBookHdlr();
+	void addPaymentMethodHdlr();
+	void generateReportHdlr();
 	void librarianOptionsHdlr(int choice);
 	void reportScreenHdlr(int choice);
 	void continueProgram();
