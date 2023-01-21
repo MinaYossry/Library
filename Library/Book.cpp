@@ -16,6 +16,8 @@ Book::Book()
 	price = Library::getValidDouble();
 	cout << "Author: ";
 	getline(cin >> ws, author);
+	cout << "Publication Year: ";
+	publicationYear = Library::getValidDouble();
 	isAvailable = true;
 	cout << "Category: ";
 	getline(cin >> ws, category);
