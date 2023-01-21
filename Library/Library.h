@@ -114,6 +114,7 @@ public:
 			{10,new Customer(10, "Ashley Hernandez",123)},
 		};
 	}
+
 	void addBorrowedBook(borrowedBook* Object) {
 		borrowedBookList.push_back(Object);
 	}
@@ -121,6 +122,8 @@ public:
 	void loginScreen();
 	void registerScreen();
 	void displayBookList();
+
+	 
 
 
 	string enterBookName();
@@ -131,29 +134,6 @@ public:
 	void getChoice(const vector<string>& screen);
 	void openLibrary();
 
-	static unordered_map<string, Book*> generateRandomBook() {
-		unordered_map<string, Book*> newList;
-		for (int i = 0; i < 3; i++) {
-			std::random_device rd;
-			std::mt19937 generator(rd());
-			std::uniform_int_distribution<int> idDist(1000, 9999);
-			std::uniform_int_distribution<int> yearDist(1900, 2020);
-			std::uniform_real_distribution<double> priceDist(10.0, 100.0);
-			std::uniform_int_distribution<int> stockDist(0, 20);
-
-			int id = idDist(generator);
-			std::string title = "Book " + std::to_string(id);
-			std::string author = "Author " + std::to_string(id);
-			int publicationYear = yearDist(generator);
-			double price = priceDist(generator);
-			int stock = stockDist(generator);
-			std::string category = "category " + std::to_string(id);
-
-			Book* newBook = new Book(id, title, author, publicationYear, price, stock, category);
-			newList[newBook->getTitle()] = newBook;
-		}
-		return newList;
-	}
 
 	void personTypeScreenHdlr(int choice);
 	void loginOrRegisterHdlr(int choice);

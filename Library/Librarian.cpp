@@ -71,26 +71,40 @@ void Librarian::AddPaymentMethod(string paymentMethodName) {
 void Librarian::generateReport(int choice, const unordered_map<int, Person*>& customers, const string& author) {
     system("CLS");
     switch (choice) {
-    case 1: {
-        generateBorrowedBooksReport();
-        break;
+        case 1: {
+            generateBorrowedBooksReport();
+            break;
+        }
+        case 2: {
+            generateAllBooksReport();
+            break;
+        }
+        case 3: {
+            generateBooksByCategoryReport();
+            break;
+        }
+        case 4: {
+            generateMissedBooksReport(Date());
+            break;
+        }
+        case 5: {
+            generateBooksByAuthorReport(author);
+            break;
+        }
+        case 6: {
+            generateAllCustomersDetails(customers);
+            break;
+        }
     }
-    case 2: {
-        generateAllBooksReport();
-        break;
-    }
-    case 3: {
-        generateBooksByCategoryReport();
-        break;
-    }
-    case 4: {
-        generateMissedBooksReport(Date());
-        break;
-    }
-    case 5: {
-        generateBooksByAuthorReport(author);
-        break;
-    }
+}
+
+void Librarian::generateAllCustomersDetails(const unordered_map<int, Person*>& customers) {
+    cout << "Total number of customers is : " << customers.size() << endl;
+    for (const auto& customer : customers) {
+
+
+        cout << "ID: " << customer.first << ") " << customer.second->getName() << endl;
+
     }
 }
 

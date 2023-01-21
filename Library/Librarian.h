@@ -36,6 +36,8 @@ public:
 	//iam jsut sending this list
 	void generateReport(int choice, const unordered_map<int, Person*>& customers, const string& author = "");
 
+	void generateAllCustomersDetails(const unordered_map<int, Person*>& customers);
+
 	void generateBorrowedBooksReport();
 
 	void generateAllBooksReport();
