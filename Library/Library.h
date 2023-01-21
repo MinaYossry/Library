@@ -86,6 +86,10 @@ private:
 		"Total number & list of customers details ",
 	};
 
+	vector<string> paymentMethods;
+	unordered_map<string, Book*> booksList;
+	unordered_set<string> categoryList;
+
 
 public:
 	Library() {
@@ -178,10 +182,6 @@ public:
 
 
 	// my added dynamic lists (taha)
-	vector<string> paymentMethods;
-	unordered_map<string, Book*> booksList;
-	unordered_set<string> categoryList;
-
 	static vector<borrowedBook*> borrowedBookList;
 
 
