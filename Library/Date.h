@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 struct Date {
 	int day;
 	int month;
@@ -9,4 +10,6 @@ struct Date {
 	Date(int _day, int _month, int _year);
 
 	bool operator > (const Date& other) const;
+
+	friend std::ostream& operator<<(std::ostream& out, const Date& date);
 };

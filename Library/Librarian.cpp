@@ -107,9 +107,7 @@ void Librarian::generateBorrowedBooksReport() {
         cout << "Borrowed Book List :\n" << "---------------\n";
 
         for (auto& borrowedBook : Library::borrowedBookList) {
-            Date date = borrowedBook->returnDate;
-            string returnDate = to_string(date.day) + "/" + to_string(date.month) + "/" + to_string(date.year);
-            cout << ++counter << ") " << borrowedBook->book->getTitle() << " || return date " << returnDate << " || Customer " << borrowedBook->customer->getName() << endl;
+            cout << ++counter << ") " << borrowedBook->book->getTitle() << " || return date " << borrowedBook->returnDate << " || Customer " << borrowedBook->customer->getName() << endl;
         }
     }
 }
@@ -174,9 +172,7 @@ void Librarian::generateMissedBooksReport(const Date& currectDate) {
     cout << "=================================" << endl;
     for (auto& borrowedBook : Library::borrowedBookList) {
         if (currectDate > borrowedBook->returnDate) {
-            Date date = borrowedBook->returnDate;
-            string returnDate = to_string(date.day) + "/" + to_string(date.month) + "/" + to_string(date.year);
-            cout << ++counter << ") " << borrowedBook->book->getTitle() << " || return date " << returnDate << " || Customer " << borrowedBook->customer->getName() << endl;
+            cout << ++counter << ") " << borrowedBook->book->getTitle() << " || return date " << borrowedBook->returnDate << " || Customer " << borrowedBook->customer->getName() << endl;
         }
     }
     if (counter == 0) {

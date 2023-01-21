@@ -105,3 +105,22 @@ void Customer::displayMessage()
     }
     cout << "==========================================" << endl;
 }
+
+bool Customer::displayBorrowedBooks()
+{
+    int counter = 0;
+    for (auto borrowedBook : Library::borrowedBookList)
+    {
+        cout << "List of Borrowed Books" << endl;
+        cout << "====================================" << endl;
+        if (borrowedBook->customer == this) {
+            cout << ++counter << ") " << "Book Title: " << borrowedBook->book->getTitle() << " || Return Date: " << borrowedBook->returnDate << endl;
+        }
+    }
+    if (counter)
+        cout << "====================================" << endl;
+    else
+        cout << "You don't have any borrowed books" << endl;
+
+    return counter;
+}

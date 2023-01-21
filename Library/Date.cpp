@@ -39,3 +39,9 @@ bool Date::operator>(const Date& other) const
     }
     return false;
 }
+
+std::ostream& operator<<(std::ostream& out, const Date& date)
+{
+	out << date.day << "/" << date.month << "/" << date.year;
+	return out;
+}

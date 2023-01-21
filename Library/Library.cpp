@@ -119,10 +119,13 @@ void Library::customerOptionsHdlr(int choice)
 		break;
 	case 4:
 		cout << "Return A Book: " << endl;
-		title = enterBookName();
-		book = activeCustomer->searchBook(title);
-		if (book != nullptr) activeCustomer->returnBook(book);
-		else cout << "Book not found" << endl;
+		if (activeCustomer->displayBorrowedBooks())
+		{
+			title = enterBookName();
+			book = activeCustomer->searchBook(title);
+			if (book != nullptr) activeCustomer->returnBook(book);
+			else cout << "Book not found" << endl;
+		}
 		continueProgram();
 		break;
 	case 5:

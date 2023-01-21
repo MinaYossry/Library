@@ -18,4 +18,5 @@ public:
     bool choosePaymentMethod(double bill);
     void recieveMessage(const string& message);
     void displayMessage();
+    bool displayBorrowedBooks();
 };
