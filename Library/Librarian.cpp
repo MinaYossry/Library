@@ -83,103 +83,106 @@ void Librarian::AddPaymentMethod(string paymentMethodName) {
 
 
 void Librarian::generateReport(int choice, const unordered_map<int, Person*>& customers, const Date& currectDate, const string& author) {
-
-	system("CLS");
-	int counter;
-	int categoryCounter = 1;
-	switch (choice)
-	{
-	case 1:// i have to get the borrowed books list and number of borrowed books
-		cout << "Number and list of borrowed books" << endl;
-		cout << "=================================" << endl;
-		cout << "Number of borrowed books is : " << Library::borrowedBookList.size() << endl;
-		cout << "Borrowed Book List :\n" << "---------------\n";
-		for (int i = 0; i < Library::borrowedBookList.size(); i++)
-		{
-			auto borrowedBook = Library::borrowedBookList.at(i);
-			Date date = borrowedBook->returnDate;
-			string returnDate = to_string(date.day)+"/"+ to_string(date.month)+"/"+ to_string(date.year);
-			cout << i + 1 << ") " << borrowedBook->book->getTitle() << " || return date " << returnDate << " || Customer " << borrowedBook->customer->getName() << endl;
-		}
-		break;
-	case 2: // total number & list of all books in the library 
-		// make sure this array works correctly 
-		cout << "Number and list of all books in the library" << endl;
-		cout << "=================================" << endl;
-		cout << "Number of  books is : " << Library::booksList.size() << endl;
-		cout << "Books List :\n" << "---------------\n";
-		for (auto& it : Library::booksList)
-		{
-			cout << it.first << " || Stock: " << it.second->getStock() << endl;
-		}
-		break;
-	case 3: // number & list of each book in each category
-		categoryCounter = 1;
-		for (const auto& category : Library::categoryList)
-		{
-			counter = 0;
-			cout << categoryCounter << ") " << category << endl;
-			for (auto& it : Library::booksList)
-			{
-				if (it.second->getCategory() == category)
-					counter += 1;
-			}
-
-			cout << "number of books in this Category is :" << counter << endl;
-			cout << "===============================" << endl;
-			for (auto& it : Library::booksList)
-			{
-				if (it.second->getCategory() == category)
-					cout << it.first << endl;
-			}
-			cout << "===============================" << endl;
-
-			categoryCounter++;
-		}
-		break;
-	case 4: // total number & list of all missed books from the library based on date i guess
-		//assume return date is day number from 1-31 in the same month
-		counter = 0;
-		for (int i = 0; i < Library::borrowedBookList.size(); i++)
-		{
-			if (compareDates(currectDate, Library::borrowedBookList.at(i)->returnDate)) {
-				auto borrowedBook = Library::borrowedBookList.at(i);
-				Date date = borrowedBook->returnDate;
-				string returnDate = to_string(date.day) + "/" + to_string(date.month) + "/" + to_string(date.year);
-				cout << counter + 1 << ") " << borrowedBook->book->getTitle() << " || return date " << returnDate << " || Customer " << borrowedBook->customer->getName() << endl;
-
-				counter++;
-			}
-		}
-
-		break;
-	case 5: // total number & list of books for specific author
-		counter = 0;
-		for (auto& it : Library::booksList)
-		{
-			if (it.second->getAuthor() == author)
-				counter++;
-		}
-		cout << "Number of books for " << author << " is:" << counter << endl;
-		for (auto& it : Library::booksList)
-		{
-			if (it.second->getAuthor() == author)
-				cout << it.first << endl;
-		}
-		break;
-	case 6: // total number & list of customer's details
-		cout << "Total number of customers is : " << customers.size() << endl;
-		for (const auto& customer : customers) {
-
-
-			cout << "ID: " << customer.first << ") " << customer.second->getName() << endl;
-
-		}
-		break;
-	}
+    system("CLS");
+    switch (choice) {
+    case 1: {
+        generateBorrowedBooksReport();
+        break;
+    }
+    case 2: {
+        generateAllBooksReport();
+        break;
+    }
+    case 3: {
+        generateBooksByCategoryReport();
+        break;
+    }
+    case 4: {
+        generateMissedBooksReport(currectDate);
+        break;
+    }
+    case 5: {
+        generateBooksByAuthorReport(author);
+        break;
+    }
+    }
 }
 
-;
+void Librarian::generateBorrowedBooksReport() {
+    int counter = 0;
+    cout << "Number and list of borrowed books" << endl;
+    cout << "=================================" << endl;
+    cout << "Number of borrowed books is : " << Library::borrowedBookList.size() << endl;
+    cout << "Borrowed Book List :\n" << "---------------\n";
+
+    for (auto& borrowedBook : Library::borrowedBookList) {
+        Date date = borrowedBook->returnDate;
+        string returnDate = to_string(date.day) + "/" + to_string(date.month) + "/" + to_string(date.year);
+        cout << ++counter << ") " << borrowedBook->book->getTitle() << " || return date " << returnDate << " || Customer " << borrowedBook->customer->getName() << endl;
+    }
+}
+
+void Librarian::generateAllBooksReport() {
+    cout << "Number and list of all books in the library" << endl;
+    cout << "=================================" << endl;
+    cout << "Number of  books is : " << Library::booksList.size() << endl;
+    cout << "Books List :\n" << "---------------\n";
+
+    for (auto& it : Library::booksList) {
+        cout << it.first << " || Stock: " << it.second->getStock() << endl;
+    }
+}
+
+void Librarian::generateBooksByCategoryReport() {
+    int categoryCounter = 1;
+    int counter = 0;
+    for (const auto& category : Library::categoryList) {
+        cout << categoryCounter << ") " << category << endl;
+        counter = 0;
+
+        for (auto& it : Library::booksList) {
+            if (it.second->getCategory() == category) {
+                counter++;
+            }
+        }
+
+        cout << "number of books in this Category is :" << counter << endl;
+        cout << "===============================" << endl;
+
+        for (auto& it : Library::booksList) {
+            if (it.second->getCategory() == category) {
+                cout << it.first << endl;
+            }
+        }
+        cout << "===============================" << endl;
+        categoryCounter++;
+    }
+}
+
+void Librarian::generateMissedBooksReport(const Date& currectDate) {
+    int counter = 0;
+    cout << "Total number & list of all missed books from the library based on date" << endl;
+    cout << "=================================" << endl;
+    for (auto& borrowedBook : Library::borrowedBookList) {
+        if (compareDates(currectDate, borrowedBook->returnDate)) {
+            Date date = borrowedBook->returnDate;
+            string returnDate = to_string(date.day) + "/" + to_string(date.month) + "/" + to_string(date.year);
+            cout << ++counter << ") " << borrowedBook->book->getTitle() << " || return date " << returnDate << " || Customer " << borrowedBook->customer->getName() << endl;
+        }
+    }
+}
+
+void Librarian::generateBooksByAuthorReport(const string& author) {
+    int counter = 0;
+    cout << "Total number & list of books for specific author" << endl;
+    cout << "=================================" << endl;
+
+    for (auto& it : Library::booksList) {
+        if (it.second->getAuthor() == author) {
+            cout << ++counter << ") " << it.first << endl;
+        }
+    }
+}
 
 
 /// some notes on the side
