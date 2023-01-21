@@ -181,6 +181,7 @@ public:
 	vector<string> paymentMethods;
 	unordered_map<string, Book*> booksList;
 	unordered_set<string> categoryList;
+
 	static vector<borrowedBook*> borrowedBookList;
 
 
