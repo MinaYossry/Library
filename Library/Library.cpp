@@ -144,6 +144,7 @@ void Library::librarianOptionsHdlr(int choice)
 	int id;
 	string returnDate;
 	string payment;
+	string title;
 	switch (choice)
 	{
 	case 1:
@@ -180,6 +181,14 @@ void Library::librarianOptionsHdlr(int choice)
 		continueProgram();
 		break;
 	case 6:
+		cout << "Search For A Book: " << endl;
+		title = enterBookName();
+		book = activeLibrarian->searchBook(title);
+		if (book != nullptr) book->displayInfo();
+		else cout << "Book not found" << endl;
+		continueProgram();
+		break;
+	case 7:
 		cout << "Add new payment method" << endl;
 		cout << "===============================================" << endl;
 		do {
@@ -189,11 +198,11 @@ void Library::librarianOptionsHdlr(int choice)
 		activeLibrarian->AddPaymentMethod(payment);
 		continueProgram();
 		break;
-	case 7:
+	case 8:
 		getChoice(reports);
 		continueProgram();
 		break;
-	case 8:
+	case 9:
 	default:
 		currentUser = typNone;
 		activeCustomer = nullptr; activeLibrarian = nullptr; activeUser = nullptr;
