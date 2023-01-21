@@ -23,7 +23,7 @@ void Customer::borrowBook(Book* book)
     if (book->getIsAvailable()) {
         if (choosePaymentMethod(book->getPrice() * 0.15))
         {
-            Library::borrowedBookList.push_back(new borrowedBook(book, Library::getDate(), this));
+            Library::borrowedBookList.push_back(new borrowedBook(book, Date(), this));
             book->setStock(-1);
         }
     }
@@ -48,7 +48,7 @@ void Customer::returnBook(Book* book)
     }
 
     if (found) {
-        if (compareDates(target->returnDate, Library::getDate()))
+        if (Date() > target->returnDate)
             choosePaymentMethod(target->book->getPrice() * 0.15);
 
         book->setStock(1);
@@ -104,4 +104,23 @@ void Customer::displayMessage()
         cout << message << endl;
     }
     cout << "==========================================" << endl;
+}
+
+bool Customer::displayBorrowedBooks()
+{
+    int counter = 0;
+    for (auto borrowedBook : Library::borrowedBookList)
+    {
+        cout << "List of Borrowed Books" << endl;
+        cout << "====================================" << endl;
+        if (borrowedBook->customer == this) {
+            cout << ++counter << ") " << "Book Title: " << borrowedBook->book->getTitle() << " || Return Date: " << borrowedBook->returnDate << endl;
+        }
+    }
+    if (counter)
+        cout << "====================================" << endl;
+    else
+        cout << "You don't have any borrowed books" << endl;
+
+    return counter;
 }

@@ -120,6 +120,7 @@ public:
 	void displayScreen(const vector<string> &screen);
 	void loginScreen();
 	void registerScreen();
+	void displayBookList();
 	string enterBookName();
 	void getChoice(const vector<string>& screen);
 	void openLibrary();
@@ -155,7 +156,6 @@ public:
 	void reportScreenHdlr(int choice);
 	void continueProgram();
 
-	static Date getDate();
 
 
 	// my added dynamic lists (taha)

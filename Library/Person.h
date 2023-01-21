@@ -20,6 +20,6 @@ public:
 	string getName() const;
 	Book* searchBook(string name);
 
-	bool compareDates(const Date& currentDate, const Date& returnDate);
+	//bool compareDates(const Date& currentDate, const Date& returnDate);
 
 };

@@ -92,6 +92,7 @@ void Library::customerOptionsHdlr(int choice)
 	{
 	case 1:
 		cout << "Buy A Book: " << endl;
+		displayBookList();
 		title = enterBookName();
 		book = activeCustomer->searchBook(title);
 		if (book != nullptr) activeCustomer->buyBook(book);
@@ -100,6 +101,7 @@ void Library::customerOptionsHdlr(int choice)
 		break;
 	case 2:
 		cout << "Borrow A Book: " << endl;
+		displayBookList();
 		title = enterBookName();
 		book = activeCustomer->searchBook(title);
 		if (book != nullptr) activeCustomer->borrowBook(book);
@@ -108,6 +110,7 @@ void Library::customerOptionsHdlr(int choice)
 		break;
 	case 3:
 		cout << "Search For A Book: " << endl;
+		displayBookList();
 		title = enterBookName();
 		book = activeCustomer->searchBook(title);
 		if (book != nullptr) book->displayInfo();
@@ -116,10 +119,13 @@ void Library::customerOptionsHdlr(int choice)
 		break;
 	case 4:
 		cout << "Return A Book: " << endl;
-		title = enterBookName();
-		book = activeCustomer->searchBook(title);
-		if (book != nullptr) activeCustomer->returnBook(book);
-		else cout << "Book not found" << endl;
+		if (activeCustomer->displayBorrowedBooks())
+		{
+			title = enterBookName();
+			book = activeCustomer->searchBook(title);
+			if (book != nullptr) activeCustomer->returnBook(book);
+			else cout << "Book not found" << endl;
+		}
 		continueProgram();
 		break;
 	case 5:
@@ -154,12 +160,14 @@ void Library::librarianOptionsHdlr(int choice)
 		break;
 	case 2:
 		cout << "Delete a book" << endl;
+		displayBookList();
 		bookName = enterBookName();
 		activeLibrarian->DeleteBook(bookName);
 		continueProgram();
 		break;
 	case 3:
 		cout << "Update Book Stock" << endl;
+		displayBookList();
 		bookName = enterBookName();
 		cout << "Enter stock to be added to the currect stock: ";
 		newStock = Library::getValidInt();
@@ -168,16 +176,17 @@ void Library::librarianOptionsHdlr(int choice)
 		break;
 	case 4:
 		cout << "Lend a book to customer" << endl;
+		displayBookList();
 		bookName = enterBookName();
 		do {
 			cout << "Enter cutomer ID: ";
 			id = Library::getValidInt();
 		} while (customers.persons.find(id) == customers.persons.end());
-		activeLibrarian->lendBook(bookName, getDate(), static_cast<Customer*>(customers.persons.at(id)));
+		activeLibrarian->lendBook(bookName, Date(), static_cast<Customer*>(customers.persons.at(id)));
 		continueProgram();
 		break;
 	case 5:
-		activeLibrarian->requestBorrowedBook(getDate());
+		activeLibrarian->requestBorrowedBook(Date());
 		continueProgram();
 		break;
 	case 6:
@@ -220,16 +229,16 @@ void Library::reportScreenHdlr(int choice)
 	case 2:
 	case 3:
 	case 6:
-		activeLibrarian->generateReport(choice, customers.persons, Date());
+		activeLibrarian->generateReport(choice, customers.persons);
 		break;
 	case 4:
-		activeLibrarian->generateReport(choice, customers.persons, getDate());
+		activeLibrarian->generateReport(choice, customers.persons);
 		break;
 	case 5:
 		cout << "Enter Author Name: " << endl;
 		getline(cin >> ws, author);
 		cout << endl;
-		activeLibrarian->generateReport(choice, customers.persons, Date(), author);
+		activeLibrarian->generateReport(choice, customers.persons, author);
 		break;
 	case 7:
 	default:
@@ -250,26 +259,6 @@ void Library::continueProgram()
 		exit(1); //error
 }
 
-Date Library::getDate()
-{
-	Date date;
-	cout << "Enter date: " << endl;
-	do {
-		cout << "Day: ";
-		date.day = Library::getValidInt();
-	} while (date.day < 1 || date.day > 31);
-	do {
-
-		cout << "Month: ";
-		date.month = Library::getValidInt();
-	} while (date.month < 1 || date.month > 12);
-	do {
-
-		cout << "Year: ";
-		date.year = Library::getValidInt();
-	} while (date.year < 2000 || date.year > 2025);
-	return date;
-}
 
 int Library::getValidInt()
 {
@@ -375,16 +364,21 @@ void Library::registerScreen()
 	}
 }
 
-string Library::enterBookName()
-{
+
+void Library::displayBookList() {
 	int counter = 0;
-	cout << "Available books"<< endl;
+	cout << "Available books" << endl;
 	cout << "===============================" << endl;
 	for (auto& it : Library::booksList)
 	{
 		cout << ++counter << ") " << it.first << endl;
 	}
 	cout << "==========================" << endl;
+}
+
+string Library::enterBookName()
+{
+	
 	cout << "Enter Book Name: ";
 	string bookName;
 	getline(cin >> ws, bookName);
