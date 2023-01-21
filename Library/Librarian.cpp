@@ -144,7 +144,7 @@ void Librarian::generateAllBooksReport(const unordered_map<string, Book*>& books
         cout << "Books List :\n" << "---------------\n";
 
         for (auto& it : booksList) {
-            cout << it.first << " || Stock: " << it.second->getStock() << endl;
+            cout << it.first << " || Stock: " << it.second->getStock() << " || Price: " << it.second->getPrice() << endl;
         }
     }
 }
