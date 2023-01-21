@@ -120,6 +120,9 @@ void Library::returnBookHdlr() {
 			activeCustomer->returnBook(activeCustomer->searchBook(title));
 		}
 	}
+	else {
+		cout << "You don't have any borrowed books" << endl;
+	}
 }
 
 void Library::displayMessageHdlr() {

@@ -104,6 +104,11 @@ void Librarian::generateAllCustomersDetails(const unordered_map<int, Person*>& c
 
 
         cout << "ID: " << customer.first << ") " << customer.second->getName() << endl;
+        if (static_cast<Customer*>(customer.second)->displayBorrowedBooks())
+        {
+            cout << endl;
+        }
+
 
     }
 }
