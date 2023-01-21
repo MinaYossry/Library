@@ -139,16 +139,11 @@ public:
 		};
 	}
 
-	void addBorrowedBook(borrowedBook* Object) {
-		borrowedBookList.push_back(Object);
-	}
+
 	void displayScreen(const vector<string> &screen);
 	void loginScreen();
 	void registerScreen();
 	void displayBookList();
-
-	 
-
 
 	string enterBookName();
 
@@ -157,7 +152,6 @@ public:
 	bool validatePaymentMethodExists(const std::string& payment);
 	void getChoice(const vector<string>& screen);
 	void openLibrary();
-
 
 	void personTypeScreenHdlr(int choice);
 	void loginOrRegisterHdlr(int choice);
@@ -179,11 +173,8 @@ public:
 	void displayMessageHdlr();
 	void continueProgram();
 
-
-
 	// my added dynamic lists (taha)
 	static vector<borrowedBook*> borrowedBookList;
-
 
 	static int getValidInt();
 	static double getValidDouble();

@@ -12,9 +12,6 @@ void Customer::buyBook(Book* book, const vector<string>& paymentMethods)
     if (book->getIsAvailable()) {
         if (choosePaymentMethod(book->getPrice(), paymentMethods))
             book->setStock(-1);
-        else {
-            cout << "Insuffecient fund" << endl;
-        }
     }
     else {
         cout << "Book is not available" << endl;
@@ -29,9 +26,6 @@ void Customer::borrowBook(Book* book, const vector<string>& paymentMethods)
         {
             Library::borrowedBookList.push_back(new borrowedBook(book, Date(), this));
             book->setStock(-1);
-        }
-        else {
-            cout << "Insuffecient fund" << endl;
         }
     }
     else {
@@ -62,9 +56,10 @@ void Customer::returnBook(Book* book, const vector<string>& paymentMethods)
                 book->setStock(1);
                 Library::borrowedBookList.erase(std::remove(Library::borrowedBookList.begin(), Library::borrowedBookList.end(), target), Library::borrowedBookList.end());
             }
-            else {
-                cout << "Insuffecient fund" << endl;
-            }
+        }
+        else {
+                book->setStock(1);
+                Library::borrowedBookList.erase(std::remove(Library::borrowedBookList.begin(), Library::borrowedBookList.end(), target), Library::borrowedBookList.end());
         }
     }
 
@@ -87,6 +82,7 @@ bool Customer::choosePaymentMethod(double bill, const vector<string> &paymentMet
         choice = Library::getValidInt();
     } while (choice < 1 || choice > paymentMethods.size() + 1);
     if (choice - 1 >= paymentMethods.size()) {
+        cout << "Transaction Cancelled...." << endl;
         return false;
     }
     else {
