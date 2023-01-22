@@ -183,7 +183,7 @@ void Library::lendBookHdlr() {
 			cout << "Enter cutomer ID: ";
 			id = Library::getValidInt();
 		} while (customers.persons.find(id) == customers.persons.end());
-		activeLibrarian->lendBook(bookName, Date(), static_cast<Customer*>(customers.persons.at(id)), this->booksList);
+		activeLibrarian->lendBook(bookName, Date(), static_cast<Customer*>(customers.persons.at(id)), this->booksList, this->paymentMethods);
 	}
 }
 
@@ -379,12 +379,11 @@ void Library::registerScreen()
 
 
 void Library::displayBookList() {
-	int counter = 0;
 	cout << "Available books" << endl;
 	cout << "===============================" << endl;
 	for (auto& it : Library::booksList)
 	{
-		cout << ++counter << ") " << it.first << endl;
+		cout << it.second->getId() << ") " << it.first << endl;
 	}
 	cout << "==========================" << endl;
 }

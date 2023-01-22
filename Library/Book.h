@@ -42,6 +42,7 @@ public:
     void setStock(int value);
     int getStock() const;
     void displayInfo() const;
+    bool isUnique(int _id, const unordered_map<string, Book*>& booksList) const;
 };
 
 #endif

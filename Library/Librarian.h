@@ -26,7 +26,7 @@ public:
 
 
 	// so i search for that book and then update with case lend --decrease its stock number for the duration
-	void lendBook(string bookName, const Date& returnDate, Customer* custObject, const unordered_map<string, Book*>& booksList);
+	void lendBook(string bookName, const Date& returnDate, Customer* custObject, const unordered_map<string, Book*>& booksList, const vector<string>& paymentMethods);
 
 	// sends notification to the customer
 	void requestBorrowedBook(const Date& currentDate);

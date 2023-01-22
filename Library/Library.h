@@ -114,7 +114,7 @@ public:
 
 		customers.persons = {
 			{1,new Customer(1, "John Doe",123)},
-			{2,new Customer(2, "Jane Smith",123)},
+			{2,new Customer(2, "Jane Smith",123, 5)},
 			{3,new Customer(3, "Bob Johnson",123)},
 			{4,new Customer(4, "Emily Davis",123)},
 			{5,new Customer(5, "Michael Brown",123)},

@@ -2,8 +2,8 @@
 #include "Library.h"
 #include "BorrowedBook.h"
 
-Customer::Customer(int ID, string name, int password) : Person( ID,name, password) {
-    accountBalance = 500;
+Customer::Customer(int ID, string name, int password,  double _accountBalance) : Person( ID,name, password) {
+    accountBalance = _accountBalance;
 }
 
 void Customer::buyBook(Book* book, const vector<string>& paymentMethods)
@@ -90,6 +90,7 @@ bool Customer::choosePaymentMethod(double bill, const vector<string> &paymentMet
         cout << "Checking balance .... " << endl;
         if (accountBalance >= bill) {
             cout << "Congratulation" << endl;
+            accountBalance -= bill;
             return true;
         }
         else {
@@ -117,7 +118,6 @@ void Customer::displayMessage()
 
 bool Customer::displayBorrowedBooks()
 {
-    int counter = 0;
     bool found = false;
     for (auto borrowedBook : Library::borrowedBookList)
     {
@@ -127,11 +127,11 @@ bool Customer::displayBorrowedBooks()
                 cout << "====================================" << endl;
             }
             found = true;
-            cout << ++counter << ") " << "Book Title: " << borrowedBook->book->getTitle() << " || Return Date: " << borrowedBook->returnDate << endl;
+            cout << borrowedBook->book->getId() << ") " << "Book Title: " << borrowedBook->book->getTitle() << " || Return Date: " << borrowedBook->returnDate << endl;
         }
     }
-    if (counter)
+    if (found)
         cout << "====================================" << endl;
 
-    return counter;
+    return found;
 }

@@ -11,10 +11,10 @@
 class Customer : public Person
 {
 private:
-    double accountBalance = 500;
+    double accountBalance;
     vector<string> messages;
 public:
-    Customer(int ID, string name, int password);
+    Customer(int ID, string name, int password, double accountBalance = 500);
     void buyBook(Book* book, const vector<string>& paymentMethods);
     void borrowBook(Book* book, const vector<string>& paymentMethods);
     void returnBook(Book* book, const vector<string>& paymentMethods);

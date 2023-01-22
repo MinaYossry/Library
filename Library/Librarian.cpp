@@ -35,14 +35,17 @@ void Librarian::UpdateBook(string bookName, int newStock,const unordered_map<str
 	}
 }
 
-void Librarian::lendBook(string bookName, const Date& _returnDate, Customer* obj, const unordered_map<string, Book*>& booksList) {
+void Librarian::lendBook(string bookName, const Date& _returnDate, Customer* obj, const unordered_map<string, Book*>& booksList, const vector<string> &paymentMethods) {
 
 	Book* b1 = searchBook(bookName, booksList);
 	if (b1 && obj && b1->getIsAvailable())
 	{
-		b1->setStock(-1);
-		borrowedBook* b2 = new borrowedBook(b1, _returnDate, obj);
-		Library::borrowedBookList.push_back(b2);
+        if (obj->choosePaymentMethod(b1->getPrice() * 0.15, paymentMethods))
+        {
+		    b1->setStock(-1);
+		    borrowedBook* b2 = new borrowedBook(b1, _returnDate, obj);
+		    Library::borrowedBookList.push_back(b2);
+        }
 	}
 	else {
 		cout << "Book doesn't exist" << endl;
@@ -51,15 +54,20 @@ void Librarian::lendBook(string bookName, const Date& _returnDate, Customer* obj
 };
 
 void Librarian::requestBorrowedBook(const Date &currentDate) {
+    bool found = false;
 	cout << endl;
 	for (auto borrowedBook : Library::borrowedBookList)
 	{
 		if (currentDate > borrowedBook->returnDate) {
-			cout << "Book Title: " << borrowedBook->book->getTitle() << " || " << "Customer: " << borrowedBook->customer->getName();
+            found = true;
+            cout << "Book Title: " << borrowedBook->book->getTitle() << " || " << "Customer: " << borrowedBook->customer->getName() << " || Return Date: " << borrowedBook->returnDate << endl;;
 			borrowedBook->customer->recieveMessage("Please return book ( " + borrowedBook->book->getTitle() + " ) becaused it passed its return date");
 		}
 	}
-	cout << endl << "Messages is sent to customers" << endl;
+    if (found)
+        cout << endl << "Messages is sent to customers" << endl;
+    else
+        cout << endl << "No late books in library" << endl;
 }
 
 void Librarian::AddPaymentMethod(string paymentMethodName, vector<string> &paymentMethods) {

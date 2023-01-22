@@ -7,6 +7,11 @@ Book::Book(const unordered_map<string, Book*>& booksList, unordered_set<string> 
 	cout << "=================================================================" << endl;
 	cout << "ID: ";
 	id = Library::getValidInt();
+	while (!isUnique(id, booksList))
+	{
+		cout << "Please enter unique ID: ";
+		id = Library::getValidInt();
+	}
 	do
 	{
 		cout << "Name: ";
@@ -63,6 +68,15 @@ void Book::displayInfo() const
 	cout << "Price: " << price << endl;
 	cout << "Category: " << category << endl;
 	cout << "====================================================" << endl;
+}
+bool Book::isUnique(int _id, const unordered_map<string, Book*>& booksList) const
+{
+	for (const auto& book : booksList)
+	{
+		if (book.second->getId() == _id)
+			return false;
+	}
+	return true;
 }
 string Book::getCategory() {
 	return this->category;
